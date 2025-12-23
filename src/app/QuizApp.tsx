@@ -41,7 +41,7 @@ export default function QuizApp() {
 
   // Load questions and status from localStorage
   useEffect(() => {
-    fetch("/questions.json")
+    fetch("questions.json")
       .then((r) => r.json())
       .then((data) => {
         setQuestions(data.map((q: Omit<QuestionType, "index">, i: number) => ({ ...q, index: i })));
