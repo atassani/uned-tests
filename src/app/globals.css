@@ -62,10 +62,22 @@ body {
   font-weight: 600;
 }
 
-.no-border-table,
-.no-border-table th,
-.no-border-table td {
+table.no-border-table {
+  border-collapse: collapse;
+  width: auto !important;
+  table-layout: auto !important;
+  margin-left: auto;
+  margin-right: auto;
   border: none !important;
+}
+
+table.no-border-table th,
+table.no-border-table td {
+  border: none !important;
+  width: 1%;
+  white-space: nowrap;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
 }
 
 .scroll-visible {
