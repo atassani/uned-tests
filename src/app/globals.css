@@ -24,3 +24,66 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.rich-content ul,
+.rich-content ol {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.rich-content ul {
+  list-style: disc;
+}
+
+.rich-content ol {
+  list-style: decimal;
+}
+
+.rich-content li {
+  margin-bottom: 0.25rem;
+}
+
+.rich-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.rich-content th,
+.rich-content td {
+  border: 1px solid #d4d4d8;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+
+.rich-content th {
+  background: #f4f4f5;
+  font-weight: 600;
+}
+
+.no-border-table,
+.no-border-table th,
+.no-border-table td {
+  border: none !important;
+}
+
+.scroll-visible {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #e5e7eb;
+}
+
+.scroll-visible::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-visible::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 9999px;
+}
+
+.scroll-visible::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 9999px;
+}
