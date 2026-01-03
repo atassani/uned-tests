@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   output: 'export',
   basePath,
+  trailingSlash: true,
   assetPrefix: basePath ? basePath + '/' : '',
 };
 
