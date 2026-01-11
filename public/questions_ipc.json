@@ -1,0 +1,844 @@
+[
+  {
+    "section": "Tema 1. Ciencia, hechos y evidencia",
+    "number": 1,
+    "question": "El hecho de que la Tierra tiene más de 4000 años de antigüedad:",
+    "options": [
+      "No es objetivo porque hay personas con diferentes opiniones al respecto.",
+      "Es objetivo porque no depende de que creamos o no que es verdad.",
+      "Es objetivo porque lo acepta la mayoría de la comunidad científica."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 1. Ciencia, hechos y evidencia",
+    "number": 2,
+    "question": "¿Ofrece la ciencia una guía fiable para la acción?",
+    "options": [
+      "La ciencia ofrece una guía fiable para la acción, porque se basa en los deseos y valores de la comunidad científica.",
+      "La ciencia no ofrece una guía fiable para la acción, porque está influida por los intereses de las instituciones que financian la investigación científica.",
+      "La ciencia ofrece una guía fiable para la acción, porque se apoya en evidencia sobre cómo es el mundo, y las creencias basadas en evidencia tienden a llevar al éxito práctico con más fiabilidad que las creencias que no se basan en evidencia."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 1. Ciencia, hechos y evidencia",
+    "number": 3,
+    "question": "¿En qué consisten los argumentos de autoridad?",
+    "options": [
+      "Son argumentos que no pueden ser objeto de duda racional.",
+      "Son argumentos que ofrecen evidencia incuestionable a favor de una tesis.",
+      "Son argumentos a favor de una tesis que apelan exclusivamente al hecho de que una autoridad la ha defendido."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 1. Ciencia, hechos y evidencia",
+    "number": 4,
+    "question": "¿Qué es un sesgo cognitivo?",
+    "options": [
+      "Una creencia falsa pero con utilidad práctica.",
+      "Una distorsión sistemática en la evaluación e interpretación de la evidencia disponible.",
+      "Un método sistemático para evaluar la evidencia disponible."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 1. Ciencia, hechos y evidencia",
+    "number": 5,
+    "question": "Una verdad es objetiva si:",
+    "options": [
+      "No existe desacuerdo acerca de tal verdad.",
+      "Es evidente y no admite discusión.",
+      "El que sea verdad no depende de nuestras opiniones al respecto."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 2. Conocimiento empírico y observación",
+    "number": 1,
+    "question": "De acuerdo con el empirismo:",
+    "options": [
+      "La principal fuente de evidencia científica son la razón y la reflexión.",
+      "La principal fuente de evidencia científica es la experiencia observacional.",
+      "La principal fuente de evidencia científica es la intuición."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 2. Conocimiento empírico y observación",
+    "number": 2,
+    "question": "La observación:",
+    "options": [
+      "No ofrece información objetiva sobre el mundo, sino solo sobre cómo creemos que es el mundo.",
+      "Ofrece información falible, pero generalmente fiable, acerca de cómo es el mundo.",
+      "Es infalible."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 2. Conocimiento empírico y observación",
+    "number": 3,
+    "question": "La repetición y replicación de observaciones científicas:",
+    "options": [
+      "Carece de relevancia científica, al no ofrecer evidencia novedosa.",
+      "Tiene un papel secundario en la investigación, aunque puede ser importante en el proceso de formación y educación de científicos inexpertos.",
+      "Tiene un papel esencial en la investigación, ya que permite descubrir posibles errores y garantiza que la evidencia observacional resultante sea utilizable por distintos investigadores."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 2. Conocimiento empírico y observación",
+    "number": 4,
+    "question": "El uso de instrumentos de observación:",
+    "options": [
+      "Permite realizar observaciones infalibles.",
+      "Introduce inevitablemente errores e incrementa la imprecisión de la observación.",
+      "Permite superar limitaciones de nuestras capacidades perceptivas."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 2. Conocimiento empírico y observación",
+    "number": 5,
+    "question": "La evidencia empírica científica:",
+    "options": [
+      "Con frecuencia se obtiene mediante el uso de instrumentos de observación.",
+      "Solo es admisible si puede ser obtenida por observación directa.",
+      "No es objetiva si involucra el uso de instrumentos."
+    ],
+    "answer": "a",
+    "explanation": ""
+  }
+  ,
+  {
+    "section": "Tema 3. Experimentación",
+    "number": 1,
+    "question": "¿Qué es un experimento?",
+    "options": [
+      "Un experimento consiste en una serie sistemática de observaciones realizadas mediante el uso de instrumentos.",
+      "Un experimento consiste en la manipulación de un objeto de estudio para observar los efectos resultantes de dicha manipulación.",
+      "Un experimento es una observación cuyo resultado no se conoce de antemano."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 3. Experimentación",
+    "number": 2,
+    "question": "¿Qué es un experimento controlado?",
+    "options": [
+      "Un experimento cuyo resultado puede predecirse con suficiente certeza.",
+      "Un experimento realizado en el laboratorio con suficientes condiciones de seguridad, eliminando de este modo posibles riegos para los experimentadores.",
+      "Un experimento en el que se examinan los efectos de manipular una variable del sistema estudiado, evitando posibles interferencias debidas a variaciones en otras variables del sistema."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 3. Experimentación",
+    "number": 3,
+    "question": "Si en un experimento en botánica se observa que ciertas plantas crecen más cuando se les añade fertilizante:",
+    "options": [
+      "Para averiguar si la causa del mayor crecimiento es el fertilizante, hay que hacer una comparación con el crecimiento de plantas idénticas a las que no se ha suministrado fertilizante, manteniendo constante la iluminación, el tipo de suelo, la temperatura y el riego.",
+      "Nunca podrá concluirse con suficiente seguridad que el mayor crecimiento se debe al fertilizante.",
+      "Puede concluirse directamente que el fertilizante es la causa del mayor crecimiento de las plantas."
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 3. Experimentación",
+    "number": 4,
+    "question": "¿En qué consistió el experimento de Semmelweis?",
+    "options": [
+      "Semmelweis estudió si lavarse las manos con desinfectante después de realizar autopsias tenía efecto sobre la tasa de infecciones en la maternidad de Viena.",
+      "Semmelweis realizó experimentos para descubrir la bacteria causante de las infecciones en la clínica de maternidad de Viena.",
+      "Semmelweis observó que la tasa de infecciones en la clínica atendida por matronas era sistemáticamente más alta que en la atendida por médicos y estudiantes, debido a su falta de formación quirúrgica."
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 3. Experimentación",
+    "number": 5,
+    "question": "¿Es toda la ciencia empírica experimental?",
+    "options": [
+      "La única ciencia no experimental son las matemáticas.",
+      "En la actualidad, toda la ciencia empírica es experimental.",
+      "Existen disciplinas científicas de carácter empírico en las que el papel de los experimentos es limitado, y en las que la evidencia empírica se obtiene fundamentalmente a través de observaciones no experimentales."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 4. El método científico",
+    "number": 1,
+    "question": "¿Cuando proponemos una hipótesis, hemos de creer que es verdadera?",
+    "options": [
+      "Proponer p como una hipótesis implica creer que p es falsa.",
+      "Proponer p como una hipótesis implica considerar p es una posibilidad abierta (las hipótesis son conjeturas).",
+      "Proponer p como una hipótesis implica creer que p es verdad."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 4. El método científico",
+    "number": 2,
+    "question": "¿Qué quiere decir que una hipótesis sea falsable o refutable empíricamente?",
+    "options": [
+      "Para que una hipótesis sea falsable empíricamente debe estar apoyada por la evidencia empírica disponible.",
+      "Para que una hipótesis sea falsable empíricamente debe haber evidencia empírica disponible que muestre su falsedad.",
+      "Para que una hipótesis sea falsable empíricamente debe existir la posibilidad de que surja evidencia empírica que la refute."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 4. El método científico",
+    "number": 3,
+    "question": "¿Cuándo queda refutada o falsada empíricamente una hipótesis?",
+    "options": [
+      "Una hipótesis quedará refutada empíricamente solo si todas sus predicciones resultan ser incompatible con la evidencia empírica disponible.",
+      "Una hipótesis quedará refutada empíricamente si alguna de sus predicciones resulta ser incompatible con la evidencia empírica disponible.",
+      "Una hipótesis quedará refutada empíricamente si la evidencia disponible compatible tanto con la falsedad como con la verdad de la hipótesis."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 4. El método científico",
+    "number": 4,
+    "question": "¿Son revisables hipótesis actualmente aceptadas por la comunidad científica?",
+    "options": [
+      "Es frecuente que la aparición de nueva evidencia empírica lleve a rechazar hipótesis científicas que estaban ampliamente aceptadas y que se ajustaban a la evidencia disponible hasta el momento.",
+      "Una hipótesis compatible con la evidencia disponible será siempre verdadera, y por tanto no podrá aparecer nueva evidencia que la refute.",
+      "En general, una hipótesis aceptada actualmente por la comunidad científica, y compatible con la evidencia ahora disponible, no será rechazada en el futuro."
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 4. El método científico",
+    "number": 5,
+    "question": "El lenguaje científico:",
+    "options": [
+      "Ha de ser evocador, sugerente y denso, para poder dotar de mayor profundidad a su mensaje.",
+      "Ha de ser claro, preciso e inteligible.",
+      "Ha de recurrir a dobles sentidos, significados ambiguos e indeterminaciones."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 5. El problema de la inducción",
+    "number": 1,
+    "question": "En un razonamiento deductivo válido:",
+    "options": [
+      "Necesariamente, las conclusiones serán siempre verdaderas.",
+      "Necesariamente, si las premisas son falsas, las conclusiones serán falsas.",
+      "Necesariamente, si las premisas son verdaderas, las conclusiones serán también verdaderas."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 5. El problema de la inducción",
+    "number": 2,
+    "question": "En un razonamiento inductivo:",
+    "options": [
+      "Se llega a ciertas conclusiones a partir de la intuición.",
+      "Se parte de premisas generales para llegar a conclusiones sobre casos particulares.",
+      "Se parte de premisas acerca de casos particulares para llegar a conclusiones generales que van más allá de tales casos particulares."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 5. El problema de la inducción",
+    "number": 3,
+    "question": "¿Son falibles las generalizaciones inductivas?",
+    "options": [
+      "Las generalizaciones inductivas son infalibles si se basan en observaciones correctas.",
+      "Incluso si una inferencia inductiva está apoyada por un gran número de observaciones, en principio siempre es posible que aparezcan excepciones inesperadas.",
+      "Siempre que una generalización inductiva esté apoyada por un número elevado de observaciones, estará garantizado que tal generalización se cumplirá en todo caso."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 5. El problema de la inducción",
+    "number": 4,
+    "question": "¿Cuántas observaciones son necesarias para confirmar inductivamente, de manera definitiva, una hipótesis general empírica?",
+    "options": [
+      "Una única observación exitosa basta para confirmar una generalización empírica.",
+      "La observación de un solo contraejemplo es suficiente para confirmar de manera definitiva una generalización empírica.",
+      "Por muy alto que sea el número de observaciones acordes con una generalización empírica, nunca sería suficiente para considerarla confirmada de manera definitiva (ya que siempre existe la posibilidad de encontrar un contraejemplo)."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 5. El problema de la inducción",
+    "number": 5,
+    "question": "¿Cuál es el problema de la inducción?",
+    "options": [
+      "En principio, es una posibilidad abierta que las premisas de una inferencia inductiva sean verdaderas pero la generalización alcanzada en la conclusión sea falsa (porque haya excepciones todavía no observadas a tal generalización).",
+      "Nunca podremos saber con certeza si las premisas de un razonamiento inductivo son verdaderas.",
+      "Un razonamiento inductivo correcto requiere realizar un gran número de observaciones, lo cual no es siempre fácil."
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 6. Probabilidad y estadística",
+    "number": 1,
+    "question": "¿Cuál es la relación entre probabilidad e incertidumbre?",
+    "options": [
+      "La probabilidad asignada a un evento es 0 cuando existe incertidumbre acerca de si dicho evento ocurrirá.",
+      "La probabilidad asignada a un evento refleja la incertidumbre acerca de si dicho evento ocurrirá.",
+      "Solo puede tomarse como probable un evento si se sabe con certeza que sucederá."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 6. Probabilidad y estadística",
+    "number": 2,
+    "question": "¿Qué es la muestra estadística?",
+    "options": [
+      "Un caso empleado como ejemplo en un razonamiento estadístico.",
+      "Las conclusiones finales alcanzadas mediante análisis estadísticos.",
+      "El conjunto de casos de una población sobre los que se tiene datos, y a partir del cual se realizan inferencias estadísticas acerca de la población en su totalidad."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 6. Probabilidad y estadística",
+    "number": 3,
+    "question": "Un resultado extraído a partir de un conjunto de datos (e.g. una correlación) es estadísticamente significativo:",
+    "options": [
+      "Si supone una contribución novedosa a la investigación.",
+      "Si tiene aplicaciones prácticas relevantes.",
+      "Si es suficientemente improbable que dicho resultado sea debido al azar (e.g. una correlación fruto de una coincidencia casual en los casos observados), en lugar de reflejar una propiedad genuina de la población estudiada."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 6. Probabilidad y estadística",
+    "number": 4,
+    "question": "¿Cuál es la relación entre correlación y causalidad?",
+    "options": [
+      "La existencia de correlaciones estadísticas entre dos variables es incompatible con que haya relaciones causales entre ellas.",
+      "Correlación no implica causación (aunque puede constituir evidencia de la existencia de relaciones causales entre las variables correlacionadas)",
+      "Correlación implica causación: para que dos variables estén correlacionadas estadísticamente, debe existir alguna relación causal entre ellas."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 6. Probabilidad y estadística",
+    "number": 5,
+    "question": "Una manera de obtener una muestra estadística imparcial y representativa de la población estudiada, evitando sesgos en la recolección de datos es:",
+    "options": [
+      "Utilizar una muestra amplia y escogida de manera aleatoria entre toda la población.",
+      "Escoger muestras que apoyen resultados que concuerden con las expectativas previas de los investigadores.",
+      "Escoger muestras reducidas, centrándonos en un sector específico de la población."
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 7. El uso de los modelos en ciencia",
+    "number": 1,
+    "question": "¿En qué ciencias es más frecuente el uso del modelo nomológico-deductivo?",
+    "options": [
+      "Física y química",
+      "Ciencias biológicas y sociales",
+      "En todas ellas"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 7. El uso de los modelos en ciencia",
+    "number": 2,
+    "question": "¿En qué ciencias se utilizan modelos?",
+    "options": [
+      "Solo en las ciencias “duras”",
+      "Solo en las ciencias “blandas”",
+      "En todas ellas"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 7. El uso de los modelos en ciencia",
+    "number": 3,
+    "question": "Los modelos científicos son…",
+    "options": [
+      "Representaciones perfectas de los fenómenos estudiados",
+      "Idealizaciones que sirven para aproximarse a las realidades abordadas",
+      "Guías de actuación para los científicos"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 7. El uso de los modelos en ciencia",
+    "number": 4,
+    "question": "Los modelos científicos tienen valor explicativo…",
+    "options": [
+      "Cuando están bien planteados",
+      "Cuando son solamente modelos matemáticos o conceptuales",
+      "Cuando no es posible abordar los fenómenos de ninguna otra manera"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 7. El uso de los modelos en ciencia",
+    "number": 5,
+    "question": "Un modelo es válido",
+    "options": [
+      "Si no se basa en asunciones erróneas",
+      "Si refleja fielmente la realidad",
+      "Si sirve para ofrecer conocimiento útil acerca de la realidad"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 8. Paradigmas y cambio científico",
+    "number": 1,
+    "question": "¿Qué propone Kuhn para comprender el funcionamiento de la ciencia?",
+    "options": [
+      "Analizar la psicología de los científicos",
+      "Fijarnos en la historia de la ciencia",
+      "Hacer ciencia"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 8. Paradigmas y cambio científico",
+    "number": 2,
+    "question": "¿Qué es la ciencia normal?",
+    "options": [
+      "La ciencia que se hace en el marco de un paradigma",
+      "La ciencia que no supone ninguna aportación relevante",
+      "La ciencia que se hace siguiendo los criterios aceptados de rigurosidad y eficacia"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 8. Paradigmas y cambio científico",
+    "number": 3,
+    "question": "¿Qué ocurre más frecuentemente cuándo se da un fenómeno que contradice lo asumido por un paradigma?",
+    "options": [
+      "Ese paradigma se muestra erróneo",
+      "Se da siempre una revolución científica",
+      "Se entiende comúnmente que son anomalías que no ponen en riesgo al paradigma"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 8. Paradigmas y cambio científico",
+    "number": 4,
+    "question": "Según Kuhn, ¿cómo se produce el cambio científico?",
+    "options": [
+      "De forma progresiva",
+      "De forma revolucionaria",
+      "No existe realmente el cambio científico"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 8. Paradigmas y cambio científico",
+    "number": 5,
+    "question": "¿Cuándo se produce un cambio de paradigma?",
+    "options": [
+      "Cuando un nuevo paradigma demuestra ser mejor que el anterior",
+      "Cuando el paradigma antiguo se agota y no resulta ya productivo",
+      "Cuando la mayoría de los miembros de la comunidad científica decide asumir un nuevo paradigma, independientemente de los motivos por los que lo haga"
+    ],
+    "answer": "c",
+    "explanation": ""
+  }
+  ,
+  {
+    "section": "Tema 9. El criterio de demarcación",
+    "number": 1,
+    "question": "¿En qué consiste el problema de la demarcación?",
+    "options": [
+      "Determinar cuáles son los límites éticos de la actividad científica",
+      "Comprender adecuadamente las implicaciones filosóficas de la ciencia",
+      "La búsqueda de criterios para distinguir lo científico de lo no científico"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 9. El criterio de demarcación",
+    "number": 2,
+    "question": "Según el verificacionismo…",
+    "options": [
+      "El conocimiento debe ser corroborado por la experiencia",
+      "El conocimiento es siempre verdadero",
+      "El conocimiento debe poder expresarse siempre de forma matemática"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 9. El criterio de demarcación",
+    "number": 3,
+    "question": "Según el falsacionismo, no podemos estar seguros de estar en lo cierto pero podemos saber…",
+    "options": [
+      "Si estamos cerca de estarlo",
+      "Si vamos a estarlo en algún momento, aunque sea muy lejano",
+      "Si estamos equivocados"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 9. El criterio de demarcación",
+    "number": 4,
+    "question": "Según el giro social de la filosofía de la ciencia",
+    "options": [
+      "El criterio de demarcación será algo que dependa de los valores y de los aspectos contextuales que determinan el paradigma científico dominante",
+      "No existe realmente ningún enunciado ni ninguna teoría que pueda ser considerada como científica, pues todo está determinado socialmente",
+      "Decidir si algo es científico o no es una cuestión personal, pues dependerá de los criterios individuales e inconmensurables de cada uno de los científicos particulares"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 9. El criterio de demarcación",
+    "number": 5,
+    "question": "El criterio de demarcación es importante…",
+    "options": [
+      "Solamente por cuestiones teóricas",
+      "Solamente por cuestiones prácticas",
+      "Tanto por cuestiones teóricas como prácticas"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10. La ciencia y sus enemigos: ciencia vs. no ciencia, pseudociencia y anticiencia",
+    "number": 1,
+    "question": "El discurso científico y el discurso no científico",
+    "options": [
+      "Están necesariamente enfrentados",
+      "Hacen referencia a ámbitos distintos que no tienen por qué ser irreconciliables",
+      "Son siempre igual de válidos científicamente"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10. La ciencia y sus enemigos: ciencia vs. no ciencia, pseudociencia y anticiencia",
+    "number": 2,
+    "question": "¿Qué es el creacionismo?",
+    "options": [
+      "Es la creencia en que el universo ha sido creado conscientemente",
+      "Es una corriente dentro de la biología que convive con el evolucionismo",
+      "Es una confesión religiosa con gran auge en los Estados Unidos"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10. La ciencia y sus enemigos: ciencia vs. no ciencia, pseudociencia y anticiencia",
+    "number": 3,
+    "question": "En nuestro contexto actual…",
+    "options": [
+      "El creacionismo está generalmente vinculado a creencias religiosas",
+      "El creacionismo ha sido desterrado completamente de la cultura occidental",
+      "Solamente se declaran creacionistas algunos grupos de confesión cristiana, en su mayoría protestantes"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10. La ciencia y sus enemigos: ciencia vs. no ciencia, pseudociencia y anticiencia",
+    "number": 4,
+    "question": "¿Cuál es la relación entre el creacionismo y la teoría del diseño inteligente?",
+    "options": [
+      "La teoría del diseño inteligente asume el creacionismo",
+      "Son la misma cosa",
+      "La teoría del diseño inteligente es contraria al creacionismo"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10. La ciencia y sus enemigos: ciencia vs. no ciencia, pseudociencia y anticiencia",
+    "number": 5,
+    "question": "¿Cuándo los discursos no-científicos se enfrentan al discurso científico?",
+    "options": [
+      "Cuando los asumen los científicos",
+      "Cuando son aceptados por un gran número de personas",
+      "Cuando son pseudocientíficos o anticientíficos"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.2. Pseudociencia",
+    "number": 1,
+    "question": "¿Qué es la pseudociencia?",
+    "options": [
+      "No-ciencia haciéndose pasar por ciencia",
+      "Ciencia mal planteada y que no ofrece buenos resultados",
+      "El tipo de conocimiento que no muestra las garantías suficientes para ser considerado científico"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.2. Pseudociencia",
+    "number": 2,
+    "question": "¿Por qué hay discursos no-científicos que intentan hacerse pasar por científicos?",
+    "options": [
+      "Porque rechaza el estatus privilegiado de la ciencia en nuestras sociedades",
+      "Por desconfianza hacia la ciencia",
+      "Para aprovechar el crédito social de la ciencia"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.2. Pseudociencia",
+    "number": 3,
+    "question": "Las pseudomedicinas",
+    "options": [
+      "No tienen nunca ningún efecto sobre aquellos que las utilizan",
+      "Consisten en terapias alternativas que tratan solamente aquellas afecciones que la medicina tradicional no aborda",
+      "No pueden ser consideradas como medicinas, según un criterio científico, porque no han demostrado su seguridad y su efectividad"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.2. Pseudociencia",
+    "number": 4,
+    "question": "La homeopatía es",
+    "options": [
+      "Una pseudomedicina que se basa en principios que carecen de fundamentación científica",
+      "Otro nombre para referirse a todas las terapias alternativas",
+      "Una forma concreta de hacer medicina que se basa en concepciones y creencias acerca de la salud y la enfermedad con miles de años de antigüedad"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.2. Pseudociencia",
+    "number": 5,
+    "question": "Desde un punto de vista de la filosofía de la ciencia",
+    "options": [
+      "La homeopatía puede ser falsada",
+      "La homeopatía es científica solamente desde la perspectiva del verificacionismo",
+      "La homeopatía no cumple con ninguno de los criterios de demarcación aceptados (verificacionismo, falsacionismo y correspondencia con el paradigma)"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.3. Anticiencia",
+    "number": 1,
+    "question": "La anti-ciencia…",
+    "options": [
+      "Defiende que hay muchas formas diferentes de hacer ciencia",
+      "Sostiene que la ciencia no tiene ningún impacto en la sociedad",
+      "Es un discurso basado en la desconfianza hacia la ciencia"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.3. Anticiencia",
+    "number": 2,
+    "question": "¿Cuál de estas corrientes es claramente anti-científica?",
+    "options": [
+      "El veganismo",
+      "El marxismo",
+      "El movimiento anti-vacunas"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.3. Anticiencia",
+    "number": 3,
+    "question": "Según los anticientificistas…",
+    "options": [
+      "La ciencia no es capaz de cumplir con ningún criterio de demarcación",
+      "No importa cuál sea el criterio de demarcación científico porque la ciencia como tal es una actividad que se debe eliminar (o al menos reconsiderar profundamente)",
+      "Los científicos no son capaces de juzgar su propia actividad"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.3. Anticiencia",
+    "number": 4,
+    "question": "¿Qué es el terraplanismo?",
+    "options": [
+      "Una corriente de pensamiento actual que sostiene que la Tierra es plana y que la imagen científica de la Tierra esférica es un elaborado engaño",
+      "Un presupuesto ya desechado de la astronomía antigua que nadie sostiene desde hace al menos tres siglos",
+      "Una teoría científica"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 10.3. Anticiencia",
+    "number": 5,
+    "question": "¿Cuál es una de las principales razones por las que es hoy en día peligroso el discurso anti-científico?",
+    "options": [
+      "Los anticientíficos pueden ocupar en las universidades y centros de investigación el lugar de los científicos",
+      "La anti-ciencia puede confundirse muchas veces con ciencia y confundir a los expertos",
+      "Puede fomentar la desconfianza hacia la ciencia promoviendo discursos con peligrosas implicaciones como el de los negacionistas del cambio climático o los anti-vacunas."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 11. La ciencia como producto social",
+    "number": 1,
+    "question": "¿En qué contexto surgen los estudios CTS?",
+    "options": [
+      "En la revolución científica de los siglos XVI y XVII",
+      "En Reino Unido y Estados Unidos en las décadas de los 60 y 70 del siglo XX",
+      "En la Grecia Clásica con el nacimiento de la ciencia"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 11. La ciencia como producto social",
+    "number": 2,
+    "question": "La tecnociencia:",
+    "options": [
+      "Es una forma de hacer ciencia que surge en el contexto de la Segunda Guerra Mundial y que difumina las fronteras entre ciencia y tecnología",
+      "Es una rama muy concreta de la ciencia que se dedica a investigar, diseñar y producir artefactos técnicos",
+      "Es una corriente concreta de los estudios sociales de la ciencia especialmente interesada en los desarrollos tecnológicos de la ciencia"
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 11. La ciencia como producto social",
+    "number": 3,
+    "question": "¿Cuáles son los nombres de las principales tesis del Programa Fuerte?",
+    "options": [
+      "Comunismo, Universalismo, Desinterés, Escepticismo Organizado",
+      "Exactitud, Coherencia, Exhaustividad, Elegancia",
+      "Causalidad, Imparcialidad, Simetría, Reflexividad"
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 11. La ciencia como producto social",
+    "number": 4,
+    "question": "Según el constructivismo social:",
+    "options": [
+      "Todo el conocimiento científico es fraudulento",
+      "La ciencia no tiene una posición privilegiada frente a otros fenómenos como la magia o la mitología",
+      "No es posible de ninguna manera explicar el funcionamiento de la ciencia"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 11. La ciencia como producto social",
+    "number": 5,
+    "question": "Según los enfoques feministas de la ciencia:",
+    "options": [
+      "Solo es válida la ciencia hecha por mujeres",
+      "La ciencia está determinada por el androcentrismo de la sociedad",
+      "La ciencia no es un conocimiento válido porque, dada su naturaleza como producto de una sociedad androcéntrica, solo puede ser ejercida por hombres"
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 12. ¿Cómo funcionan las instituciones científicas?",
+    "number": 1,
+    "question": "¿Qué es la revisión por pares?",
+    "options": [
+      "El proceso editorial mediante el cual los artículos científicos enviados a una revista son revisados por otros investigadores antes de ser publicados.",
+      "La exigencia de que un artículo científico esté firmado por al menos dos autores.",
+      "El compromiso adquirido por los autores de un artículo científico de no publicar evidencia manipulada o ideas plagiadas a otros investigadores."
+    ],
+    "answer": "a",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 12. ¿Cómo funcionan las instituciones científicas?",
+    "number": 2,
+    "question": "Las motivaciones de los científicos:",
+    "options": [
+      "Son exclusivamente epistémicas (en concreto la búsqueda de conocimiento objetivo), ya que la ciencia aspira a la verdad.",
+      "Cuando un científico está motivado por intereses prácticos, los resultados de su investigación son fraudulentos.",
+      "Incluyen motivaciones prácticas, como la búsqueda de reconocimiento y la obtención de premios y financiación."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 12. ¿Cómo funcionan las instituciones científicas?",
+    "number": 3,
+    "question": "Los ensayos clínicos:",
+    "options": [
+      "Son experimentos sobre los efectos de medicamentos realizados exclusivamente en animales en condiciones controladas de laboratorio.",
+      "Son estudios experimentales en los que se investiga la efectividad y seguridad de un medicamento o tratamiento.",
+      "Están prohibidos en la mayoría de los países debido a que involucran experimentación con humanos."
+    ],
+    "answer": "b",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 12. ¿Cómo funcionan las instituciones científicas?",
+    "number": 4,
+    "question": "¿Qué es un estudio de replicación?",
+    "options": [
+      "Un estudio en el que se plantean objeciones a un estudio previo.",
+      "Un estudio en el que se presenta un experimento que refuta una hipótesis teórica relevante.",
+      "Un estudio en el que se busca reproducir los resultados obtenidos en un experimento previo."
+    ],
+    "answer": "c",
+    "explanation": ""
+  },
+  {
+    "section": "Tema 12. ¿Cómo funcionan las instituciones científicas?",
+    "number": 5,
+    "question": "Las publicaciones en revistas científicas especializadas:",
+    "options": [
+      "Tienen como principal función la divulgación de resultados científicos entre la población general.",
+      "Son una de las principales formas de reconocimiento del trabajo de un investigador.",
+      "Son una parte secundaria de la actividad de los científicos, ya que no tienen demasiado peso en su currículum."
+    ],
+    "answer": "b",
+    "explanation": ""
+  }
+]
