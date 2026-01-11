@@ -75,10 +75,63 @@
   - [x] Ensure feature works across all MCQ areas
   - [x] All 45 Playwright tests passing ✅
 
+## Phase 10: Complete Area Name Display (**COMPLETED**)
+- [x] **Missing Area Name with Mortarboard**: Add area name display to remaining pages
+  - [x] Write tests for area name display on menu page (below "¿Cómo quieres las preguntas?")
+  - [x] Write tests for area name display on "Seleccionar secciones" screen
+  - [x] Write tests for area name display on "Seleccionar preguntas" screen  
+  - [x] Write tests for area name display on MCQ answer page
+  - [x] Write tests for area name display on True/False answer page
+  - [x] Implement area name with 🎓 icon on all missing pages
+  - [x] Ensure consistent styling and positioning across all screens
+  - [x] All 60 Playwright tests passing ✅
+
+## Phase 11: Area Memory and Persistence (**NEW REQUIREMENT**)
+- [ ] **localStorage Area Memory**: Remember and restore user's area
+  - [ ] Write tests for area persistence in localStorage
+  - [ ] Write tests for returning to last studied area on app reload
+  - [ ] Write tests for migration from old "quizStatus" to Lógica I area
+  - [ ] Implement localStorage key for current area (e.g., "currentArea")
+  - [ ] Implement automatic area restoration on app startup
+  - [ ] Implement backward compatibility: old "quizStatus" → migrate to Lógica I
+  - [ ] Ensure quiz progress is preserved when switching areas
+
+## Phase 12: Enhanced "Cambiar área" Navigation (**NEW REQUIREMENT**)
+- [ ] **Expanded Area Switching**: Add "Cambiar área" buttons throughout app
+  - [ ] Write tests for "Cambiar área" button on question page (next to "Ver estado")
+  - [ ] Write tests for "Cambiar área" button on answer pages (both MCQ and True/False)
+  - [ ] Write tests for "Cambiar área" button on "Seleccionar secciones" page
+  - [ ] Write tests for "Cambiar área" button on "Seleccionar preguntas" page
+  - [ ] Write tests for "Cambiar área" button on "Quiz completado" page
+  - [ ] Write tests for continuing where you left off after area change
+  - [ ] Implement "Cambiar área" buttons with consistent styling
+  - [ ] Implement logic to preserve progress in both areas when switching
+  - [ ] Ensure area switching works from any screen in the app
+
+## Phase 13: Short Area Names in Selection (**NEW REQUIREMENT**)
+- [ ] **Compact Area Selection**: Add short names for better UX
+  - [ ] Write tests for short area names display in area selection
+  - [ ] Add "short" field to areas.json (LOG1, IPC)
+  - [ ] Write tests for short names with full names below in smaller font
+  - [ ] Update area selection UI to show short names prominently
+  - [ ] Display full area names in smaller text below short names
+  - [ ] Ensure responsive design works with new layout
+  - [ ] Consider scalability for future additional areas
+
+## Phase 14: Sequential Question Order Option (**NEW REQUIREMENT**)
+- [ ] **Question Order Control**: Allow sequential vs random question presentation
+  - [ ] Write tests for sequential question order option
+  - [ ] Write tests for question order selection UI
+  - [ ] Add question order preference to localStorage
+  - [ ] Implement UI toggle for "Orden secuencial" vs "Orden aleatorio"
+  - [ ] Implement sequential question logic (by question number)
+  - [ ] Ensure both random and sequential modes work correctly
+  - [ ] Update existing tests to account for question order modes
+
 ## Phase 7: Documentation and Versioning
 - [ ] Update version history page with new feature description
 - [ ] Bump package.json version to 1.3.0
 - [ ] Create git commits at each major milestone
 - [ ] Final verification and cleanup
 
-## Current Status: Starting project familiarization
+## Current Status: Ready to begin Phase 10 - Complete Area Name Display

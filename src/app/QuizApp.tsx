@@ -330,7 +330,13 @@ export default function QuizApp() {
   function renderSelectionMenu() {
     return (
       <div className="space-y-8 flex flex-col items-center justify-center">
-        <div className="text-2xl font-bold mb-4">¿Cómo quieres las preguntas de {selectedArea?.area}?</div>
+        {/* Show area name at top */}
+        {selectedArea && (
+          <div className="text-lg font-bold text-blue-600 mb-2">
+            🎓 {selectedArea.area}
+          </div>
+        )}
+        <div className="text-2xl font-bold mb-4">¿Cómo quieres las preguntas?</div>
         <button className="px-6 py-3 bg-blue-600 text-white rounded text-lg w-64" onClick={() => { setSelectionMode("all"); startQuizAll(); }} aria-label="Todas las preguntas">Todas las preguntas</button>
         <button className="px-6 py-3 bg-green-600 text-white rounded text-lg w-64" onClick={() => { setSelectionMode("sections"); }} aria-label="Seleccionar secciones">Seleccionar secciones</button>
         <button className="px-6 py-3 bg-purple-600 text-white rounded text-lg w-64" onClick={() => { setSelectionMode("questions"); }} aria-label="Seleccionar preguntas">Seleccionar preguntas</button>
@@ -351,6 +357,12 @@ export default function QuizApp() {
     const handleUncheckAll = () => setSelectedSections(new Set());
     return (
       <div className="space-y-8 flex flex-col items-center justify-center">
+        {/* Show area name at top */}
+        {selectedArea && (
+          <div className="text-lg font-bold text-blue-600 mb-2">
+            🎓 {selectedArea.area}
+          </div>
+        )}
         <div className="text-2xl font-bold mb-4">Selecciona las secciones</div>
         <div className="flex gap-4 mb-2">
           <button
@@ -406,6 +418,12 @@ export default function QuizApp() {
     const grouped = groupBySection(allQuestions);
     return (
       <div className="space-y-8 flex flex-col items-center justify-center">
+        {/* Show area name at top */}
+        {selectedArea && (
+          <div className="text-lg font-bold text-blue-600 mb-2">
+            🎓 {selectedArea.area}
+          </div>
+        )}
         <div className="text-2xl font-bold mb-4">Selecciona las preguntas</div>
         <div className="relative w-full">
           <div ref={questionScrollRef} className="max-h-96 overflow-y-auto w-full pr-4">
@@ -668,6 +686,12 @@ export default function QuizApp() {
       const q = current !== null ? questions[current] : null;
       return (
         <div className="space-y-4 mt-8">
+          {/* Show area name at top */}
+          {selectedArea && (
+            <div className="text-lg font-bold text-blue-600 mb-2">
+              🎓 {selectedArea.area}
+            </div>
+          )}
           <div className="mt-2 text-sm">
             {EMOJI_PROGRESS} Total: {questions.length} | Correctas: {correctCount} | Falladas: {failCount} | Pendientes: {pendingCount}
           </div>
@@ -688,7 +712,7 @@ export default function QuizApp() {
             dangerouslySetInnerHTML={formatRichText(
               current !== null && questions[current] 
                 ? (currentQuizType === "Multiple Choice" 
-                    ? `Respuesta esperada: ${questions[current].answer.toUpperCase()}) ${questions[current].options?.[questions[current].answer.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0)] || questions[current].answer}`
+                    ? `Respuesta esperada ${questions[current].answer.toUpperCase()}) ${questions[current].options?.[questions[current].answer.toLowerCase().charCodeAt(0) - 'a'.charCodeAt(0)] || questions[current].answer}`
                     : questions[current].answer
                   )
                 : ""
@@ -710,6 +734,12 @@ export default function QuizApp() {
       const pendingCount = questions.length - (correctCount + failCount);
       return (
         <div className="space-y-8 mt-8">
+          {/* Show area name at top */}
+          {selectedArea && (
+            <div className="text-lg font-bold text-blue-600 mb-2">
+              🎓 {selectedArea.area}
+            </div>
+          )}
           <div className="text-2xl font-bold">{EMOJI_DONE} ¡Quiz completado!</div>
           <div className="mt-2 text-sm">
             {EMOJI_PROGRESS} Total: {questions.length} | Correctas: {correctCount} | Falladas: {failCount} | Pendientes: {pendingCount}

@@ -21,7 +21,7 @@ test('can select an area and proceed to question selection', async ({ page }) =>
   await page.getByRole('button', { name: /Lógica I/ }).click();
   
   // Should see question selection screen for Lógica I
-  await expect(page.getByText('¿Cómo quieres las preguntas de Lógica I?')).toBeVisible();
+  await expect(page.getByText('¿Cómo quieres las preguntas?')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Todas las preguntas' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Seleccionar secciones' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Seleccionar preguntas' })).toBeVisible();
@@ -98,7 +98,7 @@ test('shows area name in question selection menu', async ({ page }) => {
   await page.getByRole('button', { name: /Lógica I/ }).click();
   
   // Should show area name in the question selection menu
-  await expect(page.getByText('Lógica I')).toBeVisible();
+  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
 });
 
 test('migrates old quizStatus to area-specific storage without .json suffix', async ({ page }) => {
@@ -149,7 +149,7 @@ test('keyboard shortcuts work for area selection', async ({ page }) => {
   await page.keyboard.press('1');
   
   // Should be in question selection for first area
-  await expect(page.getByText(/¿Cómo quieres las preguntas de/)).toBeVisible();
+  await expect(page.getByText('¿Cómo quieres las preguntas?')).toBeVisible();
 });
 
 test('keyboard shortcuts work for Multiple Choice questions', async ({ page }) => {
@@ -231,4 +231,67 @@ test('MCQ shows expected answer in correct format when wrong answer is selected'
       await expect(answerSection).toContainText(/^Respuesta esperada [ABC]\) /);
     }
   }
+});
+
+test('shows area name with mortarboard on menu page', async ({ page }) => {
+  await page.goto(homePath);
+  
+  // Navigate to Lógica I area
+  await page.getByRole('button', { name: /Lógica I/ }).click();
+  
+  // Should see area name with mortarboard on menu page
+  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+  
+  // Navigate to IPC area 
+  await page.getByRole('button', { name: 'Cambiar área' }).click();
+  await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
+  
+  // Should see area name with mortarboard on IPC menu page
+  await expect(page.getByText('🎓 Introducción al Pensamiento Científico')).toBeVisible();
+});
+
+test('shows area name with mortarboard on section selection page', async ({ page }) => {
+  await page.goto(homePath);
+  
+  // Navigate to Lógica I and go to section selection
+  await page.getByRole('button', { name: /Lógica I/ }).click();
+  await page.getByRole('button', { name: 'Seleccionar secciones' }).click();
+  
+  // Should see area name with mortarboard on section selection page
+  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+});
+
+test('shows area name with mortarboard on question selection page', async ({ page }) => {
+  await page.goto(homePath);
+  
+  // Navigate to Lógica I and go to question selection
+  await page.getByRole('button', { name: /Lógica I/ }).click();
+  await page.getByRole('button', { name: 'Seleccionar preguntas' }).click();
+  
+  // Should see area name with mortarboard on question selection page
+  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+});
+
+test('shows area name with mortarboard on True/False answer page', async ({ page }) => {
+  await page.goto(homePath);
+  
+  // Test True/False answer page
+  await page.getByRole('button', { name: /Lógica I/ }).click();
+  await page.getByRole('button', { name: 'Todas las preguntas' }).click();
+  await page.getByRole('button', { name: 'V', exact: true }).click();
+  
+  // Should see area name with mortarboard on True/False answer page
+  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+});
+
+test('shows area name with mortarboard on MCQ answer page', async ({ page }) => {
+  await page.goto(homePath);
+  
+  // Test MCQ answer page
+  await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
+  await page.getByRole('button', { name: 'Todas las preguntas' }).click();
+  await page.getByRole('button', { name: 'A', exact: true }).click();
+  
+  // Should see area name with mortarboard on MCQ answer page
+  await expect(page.getByText('🎓 Introducción al Pensamiento Científico')).toBeVisible();
 });
