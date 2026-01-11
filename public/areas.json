@@ -2,11 +2,13 @@
   {
     "area": "Lógica I",
     "file": "questions_logica1.json",
-    "type": "True False"
+    "type": "True False",
+    "shortName": "log1"
   },
   {
     "area": "Introducción al Pensamiento Científico",
-    "file": "questions_ipc.json", 
-    "type": "Multiple Choice"
+    "file": "questions_ipc.json",
+    "type": "Multiple Choice",
+    "shortName": "ipc"
   }
 ]

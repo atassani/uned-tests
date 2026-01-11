@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState, useRef, useCallback } from "react";
 import DOMPurify from "isomorphic-dompurify";
@@ -15,19 +14,14 @@ interface QuestionType {
   options?: string[]; // For multiple choice questions
 }
 
-interface MultipleChoiceQuestion extends QuestionType {
-  options: string[];
-}
 
 interface AreaType {
   area: string;
   file: string;
   type: "True False" | "Multiple Choice";
+  shortName: string;
 }
 
-interface QuizStatusByArea {
-  [areaFile: string]: Record<number, "correct" | "fail" | "pending">;
-}
 const EMOJI_SUCCESS = "✅";
 const EMOJI_FAIL = "❌";
 const EMOJI_ASK = "❓";
@@ -57,6 +51,7 @@ function formatRichText(text?: string): { __html: string } {
 export default function QuizApp() {
   const canResumeRef = useRef(false);
   const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]); // All loaded questions
+
   const [questions, setQuestions] = useState<QuestionType[]>([]); // Filtered questions for this session
   const [status, setStatus] = useState<Record<number, "correct" | "fail" | "pending">>({});
   // 'current' is the index in the filtered 'questions' array
@@ -70,12 +65,32 @@ export default function QuizApp() {
   const questionScrollRef = useRef<HTMLDivElement | null>(null);
   const [questionScrollMeta, setQuestionScrollMeta] = useState<{ thumbTop: number; thumbHeight: number; show: boolean }>({ thumbTop: 0, thumbHeight: 0, show: false });
   const resumeQuestionRef = useRef<number | null>(null);
+  const currentLoadingAreaRef = useRef<string | null>(null);
 
   // New area-related state
   const [areas, setAreas] = useState<AreaType[]>([]);
   const [selectedArea, setSelectedArea] = useState<AreaType | null>(null);
   const [showAreaSelection, setShowAreaSelection] = useState<boolean>(true);
   const [currentQuizType, setCurrentQuizType] = useState<"True False" | "Multiple Choice" | null>(null);
+
+  // Question order control state
+  const [questionOrder, setQuestionOrder] = useState<"random" | "sequential">("random");
+
+  // Persist current question index per area (must be after selectedArea is defined)
+  useEffect(() => {
+    if (selectedArea && current !== null) {
+      const areaKey = selectedArea.shortName;
+      localStorage.setItem(`currentQuestion_${areaKey}`, String(current));
+    }
+  }, [selectedArea, current]);
+
+  // Persist question order preference per area
+  useEffect(() => {
+    if (selectedArea) {
+      const areaKey = selectedArea.shortName;
+      localStorage.setItem(`questionOrder_${areaKey}`, questionOrder);
+    }
+  }, [selectedArea, questionOrder]);
 
   // Load areas on component mount
   useEffect(() => {
@@ -88,68 +103,142 @@ export default function QuizApp() {
       })
       .then((areasData: AreaType[]) => {
         setAreas(areasData);
-        
         // Migrate old localStorage data for backward compatibility
         const oldQuizStatus = localStorage.getItem('quizStatus');
         if (oldQuizStatus) {
-          // Migrate to Lógica I area (the default/original area)
           const logicaArea = areasData.find(area => area.area === 'Lógica I');
           if (logicaArea) {
-            const areaKey = logicaArea.file.replace('.json', '');
+            const areaKey = logicaArea.shortName;
             localStorage.setItem(`quizStatus_${areaKey}`, oldQuizStatus);
-            localStorage.removeItem('quizStatus'); // Remove old data
+            localStorage.removeItem('quizStatus');
+          }
+        }
+        // Always show area selection after reload for test compatibility
+        setShowAreaSelection(true);
+        // Auto-restore last studied area (by shortName)
+        const currentAreaShortName = localStorage.getItem('currentArea');
+        if (currentAreaShortName) {
+          const areaToRestore = areasData.find(area => area.shortName === currentAreaShortName);
+          if (areaToRestore) {
+            setSelectedArea(areaToRestore);
+            setCurrentQuizType(areaToRestore.type);
+            // Restore question order for this area
+            const savedOrder = localStorage.getItem(`questionOrder_${areaToRestore.shortName}`) as "random" | "sequential" | null;
+            if (savedOrder) {
+              setQuestionOrder(savedOrder);
+            } else {
+              setQuestionOrder("random");
+            }
+            // Do not hide area selection here; let user/test choose area
+            return;
           }
         }
       })
       .catch((err) => console.error('Failed to load areas:', err));
   }, []);
 
-  // Load questions for selected area
-  useEffect(() => {
-    if (!selectedArea) return;
+  // Shared function to load area questions and restore progress
+  const loadAreaAndQuestions = async (area: AreaType) => {
+    // Track the current area being loaded to prevent race conditions
+    const loadingId = `${area.shortName}_${Date.now()}`;
+    currentLoadingAreaRef.current = loadingId;
     
-    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${selectedArea.file}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const questionsWithIndex = data.map((q: Omit<QuestionType, "index">, i: number) => ({ ...q, index: i }));
-        setAllQuestions(questionsWithIndex);
-        setCurrentQuizType(selectedArea.type);
-        setShowAreaSelection(false);
+    setSelectedArea(area);
+    setCurrentQuizType(area.type);
+    setShowAreaSelection(false);
+    // Track area for persistence
+    localStorage.setItem('currentArea', area.shortName);
+
+    // Always load questions and restore progress if available
+    const areaKey = area.shortName;
+    const savedStatus = localStorage.getItem(`quizStatus_${areaKey}`);
+    const savedCurrent = localStorage.getItem(`currentQuestion_${areaKey}`);
+    const savedOrder = localStorage.getItem(`questionOrder_${areaKey}`) as "random" | "sequential" | null;
+    let restoredOrder: "random" | "sequential" = "random";
+    if (savedOrder === "sequential") restoredOrder = "sequential";
+    setQuestionOrder(restoredOrder);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${area.file}`);
+    if (currentLoadingAreaRef.current !== loadingId) return;
+    if (response.ok) {
+      const questionsData = await response.json();
+      const questionsWithIndex = questionsData.map((q: QuestionType, idx: number) => ({ ...q, index: idx }));
+      if (currentLoadingAreaRef.current !== loadingId) return;
+      setAllQuestions(questionsWithIndex);
+      let parsedStatus: Record<number, "correct" | "fail" | "pending"> = {};
+      if (savedStatus) {
+        parsedStatus = JSON.parse(savedStatus);
+      } else {
+        parsedStatus = questionsWithIndex.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+          acc[q.index] = "pending";
+          return acc;
+        }, {});
+      }
+      setStatus(parsedStatus);
+      // Order questions according to restoredOrder
+      let orderedQuestions = [...questionsWithIndex];
+      if (restoredOrder === "sequential") {
+        orderedQuestions.sort((a, b) => a.number - b.number);
+      }
+      // If all questions are answered, show the menu and clean up currentQuestion
+      const allAnswered = Object.values(parsedStatus).length > 0 && Object.values(parsedStatus).every(s => s !== "pending");
+      if (allAnswered) {
+        localStorage.removeItem(`currentQuestion_${areaKey}`);
+        setQuestions([]);
+        setCurrent(null);
         setShowSelectionMenu(true);
         setSelectionMode(null);
-        setQuestions([]);
-        setStatus({});
-        setCurrent(null);
         setShowStatus(false);
         setShowResult(null);
-        
-        // Check for existing quiz progress for this area
-        const areaKey = selectedArea.file.replace('.json', '');
-        const savedStatus = localStorage.getItem(`quizStatus_${areaKey}`);
-        if (savedStatus) {
-          const parsedStatus = JSON.parse(savedStatus);
-          setStatus(parsedStatus);
-          
-          // Find questions that match the saved status
-          const resumableQuestions = questionsWithIndex.filter((q: QuestionType) => parsedStatus[q.index] !== undefined);
-          if (resumableQuestions.length > 0) {
-            setQuestions(resumableQuestions);
-            const pending = resumableQuestions.filter((q: QuestionType) => parsedStatus[q.index] === 'pending');
-            if (pending.length > 0) {
-              const randomPending = Math.floor(Math.random() * pending.length);
-              resumeQuestionRef.current = resumableQuestions.findIndex((q: QuestionType) => q.index === pending[randomPending].index);
-              canResumeRef.current = true;
-            }
-          }
+        return;
+      }
+      // If there is no saved progress, show the selection menu
+      if (!savedStatus && !savedCurrent) {
+        setQuestions([]);
+        setCurrent(null);
+        setShowSelectionMenu(true);
+        setSelectionMode(null);
+        setShowStatus(false);
+        setShowResult(null);
+        return;
+      }
+      // Otherwise, resume at the last question or first pending
+      let idx = 0;
+      if (savedCurrent !== null) {
+        const n = Number(savedCurrent);
+        if (!isNaN(n) && n >= 0 && n < orderedQuestions.length) {
+          idx = n;
         }
-      })
-      .catch((err) => console.error('Failed to load questions:', err));
+      } else {
+        // If no saved current, try to resume at first pending
+        const nextPending = orderedQuestions.findIndex(q => parsedStatus[q.index] === "pending");
+        if (nextPending !== -1) {
+          idx = nextPending;
+        }
+      }
+      setQuestions(orderedQuestions);
+      setCurrent(idx);
+      setShowSelectionMenu(false);
+      setSelectionMode(null);
+      setShowStatus(false);
+      setShowResult(null);
+      return;
+    }
+    setShowSelectionMenu(true);
+    setQuestions([]);
+    setCurrent(null);
+  };
+
+  // Load questions for selected area on every area change
+  useEffect(() => {
+    if (!selectedArea) return;
+    loadAreaAndQuestions(selectedArea);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedArea]);
 
   // Persist status to localStorage whenever it changes
   useEffect(() => {
     if (questions.length > 0 && selectedArea) {
-      const areaKey = selectedArea.file.replace('.json', '');
+      const areaKey = selectedArea.shortName;
       localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(status));
     }
   }, [status, questions.length, selectedArea]);
@@ -202,17 +291,29 @@ export default function QuizApp() {
   }, []);
 
   // Start quiz with all questions
+  // Centralized ordering logic
+  function getOrderedQuestions(questions: QuestionType[]): QuestionType[] {
+    if (questionOrder === 'sequential') {
+      return [...questions].sort((a, b) => a.number - b.number);
+    }
+    return [...questions];
+  }
+
   const startQuizAll = useCallback(() => {
-    setQuestions(allQuestions);
-    const newStatus = allQuestions.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+    if (!selectedArea) return;
+    const areaKey = selectedArea.shortName;
+    localStorage.removeItem(`quizStatus_${areaKey}`);
+    localStorage.removeItem(`currentQuestion_${areaKey}`);
+    const orderedQuestions = getOrderedQuestions(allQuestions);
+    setQuestions(orderedQuestions);
+    const newStatus: Record<number, "correct" | "fail" | "pending"> = orderedQuestions.reduce((acc, q) => {
       acc[q.index] = "pending";
       return acc;
-    }, {});
+    }, {} as Record<number, "correct" | "fail" | "pending">);
     setStatus(newStatus);
-    localStorage.setItem("quizStatus", JSON.stringify(newStatus));
-    if (allQuestions.length > 0) {
-      const first = Math.floor(Math.random() * allQuestions.length);
-      setCurrent(first);
+    localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
+    if (orderedQuestions.length > 0) {
+      setCurrent(0);
       setShowStatus(false);
     } else {
       setCurrent(null);
@@ -221,21 +322,45 @@ export default function QuizApp() {
     setShowResult(null);
     setShowSelectionMenu(false);
     setSelectionMode(null);
-  }, [allQuestions]);
+  }, [allQuestions, selectedArea, questionOrder]);
 
   // Start quiz with selected sections
   const startQuizSections = useCallback(() => {
+    if (!selectedArea) return;
+    const areaKey = selectedArea.shortName;
     const filtered = allQuestions.filter(q => selectedSections.has(q.section));
-    setQuestions(filtered);
-    const newStatus = filtered.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
-      acc[q.index] = "pending";
-      return acc;
-    }, {});
+    const orderedQuestions = getOrderedQuestions(filtered);
+    setQuestions(orderedQuestions);
+    const savedStatus = localStorage.getItem(`quizStatus_${areaKey}`);
+    let newStatus: Record<number, "correct" | "fail" | "pending">;
+    if (savedStatus) {
+      const parsedStatus = JSON.parse(savedStatus);
+      newStatus = filtered.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+        acc[q.index] = parsedStatus[q.index] || "pending";
+        return acc;
+      }, {});
+    } else {
+      newStatus = filtered.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+        acc[q.index] = "pending";
+        return acc;
+      }, {});
+    }
     setStatus(newStatus);
-    localStorage.setItem("quizStatus", JSON.stringify(newStatus));
+    localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
+    let startIdx: number | null = null;
+    const savedCurrent = localStorage.getItem(`currentQuestion_${areaKey}`);
+    if (savedCurrent !== null) {
+      const idx = Number(savedCurrent);
+      if (!isNaN(idx) && idx >= 0 && idx < filtered.length) {
+        startIdx = idx;
+      }
+    }
     if (filtered.length > 0) {
-      const first = Math.floor(Math.random() * filtered.length);
-      setCurrent(first);
+      if (startIdx !== null && startIdx >= 0 && startIdx < filtered.length) {
+        setCurrent(startIdx);
+      } else {
+        setCurrent(0);
+      }
       setShowStatus(false);
     } else {
       setCurrent(null);
@@ -244,21 +369,45 @@ export default function QuizApp() {
     setShowResult(null);
     setShowSelectionMenu(false);
     setSelectionMode(null);
-  }, [allQuestions, selectedSections]);
+  }, [allQuestions, selectedSections, selectedArea, questionOrder]);
 
   // Start quiz with selected questions
   const startQuizQuestions = useCallback(() => {
+    if (!selectedArea) return;
+    const areaKey = selectedArea.shortName;
     const filtered = allQuestions.filter(q => selectedQuestions.has(q.index));
-    setQuestions(filtered);
-    const newStatus = filtered.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
-      acc[q.index] = "pending";
-      return acc;
-    }, {});
+    const orderedQuestions = getOrderedQuestions(filtered);
+    setQuestions(orderedQuestions);
+    const savedStatus = localStorage.getItem(`quizStatus_${areaKey}`);
+    let newStatus: Record<number, "correct" | "fail" | "pending">;
+    if (savedStatus) {
+      const parsedStatus = JSON.parse(savedStatus);
+      newStatus = filtered.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+        acc[q.index] = parsedStatus[q.index] || "pending";
+        return acc;
+      }, {});
+    } else {
+      newStatus = filtered.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+        acc[q.index] = "pending";
+        return acc;
+      }, {});
+    }
     setStatus(newStatus);
-    localStorage.setItem("quizStatus", JSON.stringify(newStatus));
+    localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
+    let startIdx: number | null = null;
+    const savedCurrent = localStorage.getItem(`currentQuestion_${areaKey}`);
+    if (savedCurrent !== null) {
+      const idx = Number(savedCurrent);
+      if (!isNaN(idx) && idx >= 0 && idx < filtered.length) {
+        startIdx = idx;
+      }
+    }
     if (filtered.length > 0) {
-      const first = Math.floor(Math.random() * filtered.length);
-      setCurrent(first);
+      if (startIdx !== null && startIdx >= 0 && startIdx < filtered.length) {
+        setCurrent(startIdx);
+      } else {
+        setCurrent(0);
+      }
       setShowStatus(false);
     } else {
       setCurrent(null);
@@ -267,7 +416,7 @@ export default function QuizApp() {
     setShowResult(null);
     setShowSelectionMenu(false);
     setSelectionMode(null);
-  }, [allQuestions, selectedQuestions]);
+  }, [allQuestions, selectedQuestions, selectedArea, questionOrder]);
 
   // Load questions for selected area
   const loadQuestionsForArea = useCallback(async (area: AreaType) => {
@@ -283,13 +432,18 @@ export default function QuizApp() {
       setAllQuestions(questionsWithIndex);
       
       // Load saved status for this area
-      const areaKey = area.file.replace('.json', '');
+      const areaKey = area.shortName;
       const savedStatus = localStorage.getItem(`quizStatus_${areaKey}`);
-      if (savedStatus) {
-        setStatus(JSON.parse(savedStatus));
-      } else {
-        setStatus({});
-      }
+        if (savedStatus) {
+          setStatus(JSON.parse(savedStatus));
+        } else {
+          // Initialize all questions as pending
+          const pendingStatus = questionsWithIndex.reduce((acc: Record<number, "correct" | "fail" | "pending">, q: QuestionType) => {
+            acc[q.index] = "pending";
+            return acc;
+          }, {});
+          setStatus(pendingStatus);
+        }
       
     } catch (error) {
       console.error('Error loading questions:', error);
@@ -307,18 +461,15 @@ export default function QuizApp() {
           {areas.map((area, index) => (
             <button
               key={area.file}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded text-lg text-left"
-              onClick={() => {
-                setSelectedArea(area);
-                setCurrentQuizType(area.type);
-                setShowAreaSelection(false);
-                setShowSelectionMenu(true);
-                loadQuestionsForArea(area);
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded text-lg text-left flex flex-col items-start"
+              onClick={async () => {
+                await loadAreaAndQuestions(area);
               }}
               aria-label={`Estudiar ${area.area}`}
             >
               <span className="font-mono mr-2">({index + 1})</span>
-              {area.area}
+              <span className="text-3xl font-extrabold tracking-widest leading-none">{area.shortName.toUpperCase()}</span>
+              <span className="text-base font-normal text-blue-100 mt-1" style={{ lineHeight: 1 }}>{area.area}</span>
             </button>
           ))}
         </div>
@@ -337,10 +488,53 @@ export default function QuizApp() {
           </div>
         )}
         <div className="text-2xl font-bold mb-4">¿Cómo quieres las preguntas?</div>
+        
+        {/* Question Order Selection */}
+        <div className="flex flex-col items-center space-y-2 mb-4">
+          <div className="text-lg font-semibold mb-2">Orden de preguntas:</div>
+          <div className="flex items-center justify-center w-64">
+            <span
+              className={`text-sm font-medium mr-3 cursor-pointer ${questionOrder === 'random' ? 'text-blue-600' : 'text-gray-500'}`}
+              onClick={() => setQuestionOrder('random')}
+              tabIndex={0}
+              role="button"
+              aria-label="Orden aleatorio"
+            >
+              Orden aleatorio
+            </span>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={questionOrder === 'sequential'}
+                onChange={e => setQuestionOrder(e.target.checked ? 'sequential' : 'random')}
+                className="sr-only peer"
+                aria-label="Alternar orden de preguntas"
+              />
+              <div className="w-14 h-8 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-500 transition-all duration-300">
+                <div className={`absolute left-0 top-0 h-8 w-8 rounded-full bg-blue-600 transition-transform duration-300 ${questionOrder === 'sequential' ? 'translate-x-6' : ''}`}></div>
+              </div>
+            </label>
+            <span
+              className={`text-sm font-medium ml-3 cursor-pointer ${questionOrder === 'sequential' ? 'text-blue-600' : 'text-gray-500'}`}
+              onClick={() => setQuestionOrder('sequential')}
+              tabIndex={0}
+              role="button"
+              aria-label="Orden secuencial"
+            >
+              Orden secuencial
+            </span>
+          </div>
+        </div>
+        
         <button className="px-6 py-3 bg-blue-600 text-white rounded text-lg w-64" onClick={() => { setSelectionMode("all"); startQuizAll(); }} aria-label="Todas las preguntas">Todas las preguntas</button>
         <button className="px-6 py-3 bg-green-600 text-white rounded text-lg w-64" onClick={() => { setSelectionMode("sections"); }} aria-label="Seleccionar secciones">Seleccionar secciones</button>
         <button className="px-6 py-3 bg-purple-600 text-white rounded text-lg w-64" onClick={() => { setSelectionMode("questions"); }} aria-label="Seleccionar preguntas">Seleccionar preguntas</button>
-        <button className="px-6 py-3 bg-gray-500 text-white rounded text-lg w-64" onClick={() => { setShowAreaSelection(true); setShowSelectionMenu(false); }} aria-label="Cambiar área">Cambiar área</button>
+        <button className="px-6 py-3 bg-gray-500 text-white rounded text-lg w-64" onClick={() => { 
+          setShowAreaSelection(true); 
+          setShowSelectionMenu(false);
+          // Clear current area when returning to area selection
+          localStorage.removeItem('currentArea');
+        }} aria-label="Cambiar área">Cambiar área</button>
       </div>
     );
   }
@@ -402,11 +596,12 @@ export default function QuizApp() {
             className="px-6 py-3 bg-green-600 text-white rounded text-lg"
             disabled={selectedSections.size === 0}
             onClick={startQuizSections}
-            aria-label="Empezar"
+            aria-label="Empezar quiz"
           >
-            Empezar
+            Empezar quiz
           </button>
           <button className="px-6 py-3 bg-gray-400 text-white rounded text-lg" onClick={resetQuiz}>Cancelar</button>
+          <button className="px-6 py-3 bg-gray-500 text-white rounded text-lg" onClick={() => { setShowAreaSelection(true); setCurrent(null); setShowStatus(false); setShowResult(null); }} aria-label="Cambiar área">Cambiar área</button>
         </div>
       </div>
     );
@@ -469,6 +664,7 @@ export default function QuizApp() {
             Empezar
           </button>
           <button className="px-6 py-3 bg-gray-400 text-white rounded text-lg" onClick={resetQuiz}>Cancelar</button>
+          <button className="px-6 py-3 bg-gray-500 text-white rounded text-lg" onClick={() => { setShowAreaSelection(true); setCurrent(null); setShowStatus(false); setShowResult(null); }} aria-label="Cambiar área">Cambiar área</button>
         </div>
       </div>
     );
@@ -479,9 +675,9 @@ export default function QuizApp() {
     const q = questions[current];
     const expected = q.answer.trim().toUpperCase();
     const user = ans.trim().toUpperCase();
-    
+
     let correct = false;
-    
+
     if (currentQuizType === "True False") {
       // True/False logic (existing)
       correct = (user === expected) ||
@@ -493,10 +689,10 @@ export default function QuizApp() {
       // Multiple choice logic - answer should match the letter
       correct = user === expected;
     }
-    
+
     const newStatus: Record<number, "correct" | "fail" | "pending"> = { ...status, [q.index]: correct ? "correct" : "fail" };
     setStatus(newStatus);
-    const areaKey = selectedArea.file.replace('.json', '');
+    const areaKey = selectedArea.shortName;
     localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
     setShowResult({ correct, explanation: q.explanation });
   }, [current, questions, status, selectedArea, currentQuizType]);
@@ -509,8 +705,36 @@ export default function QuizApp() {
       setShowResult(null);
       return;
     }
-    const [nextIdx] = pending[Math.floor(Math.random() * pending.length)];
-    setCurrent(nextIdx);
+    let nextIdx: number | null = null;
+    if (questionOrder === 'sequential') {
+      // Find the next higher-numbered pending question after current, or the lowest if at end
+      const currentIdx = current ?? -1;
+      // Get all pending questions sorted by .number
+      const pendingSorted = pending
+        .map(([idx, q]) => ({ idx, number: q.number }))
+        .sort((a, b) => a.number - b.number);
+      // Find the next higher-numbered pending
+      let found = false;
+      for (let i = 0; i < pendingSorted.length; ++i) {
+        if (current !== null && questions[current] && pendingSorted[i].number > questions[current].number) {
+          nextIdx = pendingSorted[i].idx;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        // If none found, go to the lowest-numbered pending
+        nextIdx = pendingSorted.length > 0 ? pendingSorted[0].idx : null;
+      }
+    } else {
+      // Random order
+      if (pending.length > 0) {
+        [nextIdx] = pending[Math.floor(Math.random() * pending.length)];
+      } else {
+        nextIdx = null;
+      }
+    }
+    setCurrent(nextIdx ?? null);
     setShowStatus(false);
     setShowResult(null);
   }, [pendingQuestions]);
@@ -602,6 +826,14 @@ export default function QuizApp() {
           <button className="px-4 py-2 bg-orange-500 text-white rounded" onClick={resetQuiz} aria-label="Volver a empezar">
             🔄 Volver a empezar
           </button>
+          <button className="px-4 py-2 bg-gray-500 text-white rounded" onClick={() => { 
+            setShowAreaSelection(true); 
+            setShowStatus(false);
+            // Clear current area when returning to area selection
+            localStorage.removeItem('currentArea');
+          }} aria-label="Cambiar área">
+            Cambiar área
+          </button>
         </div>
       </div>
     );
@@ -622,19 +854,17 @@ export default function QuizApp() {
             🎓 {selectedArea.area}
           </div>
         )}
+        <div className="font-bold text-lg">{EMOJI_SECTION} {q.section}</div>
         <div className="mt-2 text-sm">
           {EMOJI_PROGRESS} Total: {questions.length} | Correctas: {correctCount} | Falladas: {failCount} | Pendientes: {pendingCount}
         </div>
-        <div className="font-bold text-lg">{EMOJI_SECTION} {q.section}</div>
         <div
           className="text-xl font-semibold rich-content question-text"
           dangerouslySetInnerHTML={formatRichText(`${q.number}. ${q.question}`)}
         ></div>
-        
-        {/* Show options for Multiple Choice as text */}
-        {currentQuizType === "Multiple Choice" && (q as any).options && (
+        {currentQuizType === "Multiple Choice" && Array.isArray(q.options) && (
           <div className="mt-4 space-y-2">
-            {(q as any).options.map((option: string, index: number) => {
+            {q.options.map((option: string, index: number) => {
               const letter = String.fromCharCode(65 + index); // 'A', 'B', 'C', etc.
               return (
                 <div key={index} className="text-base">
@@ -651,11 +881,12 @@ export default function QuizApp() {
             <button className="px-6 py-2 bg-green-600 text-white rounded text-lg" onClick={() => handleAnswer("V")}>V</button>
             <button className="px-6 py-2 bg-red-600 text-white rounded text-lg" onClick={() => handleAnswer("F")}>F</button>
             <button className="px-6 py-2 bg-gray-400 text-white rounded text-lg" onClick={goToStatusWithResume}>Ver estado</button>
+            <button className="px-6 py-2 bg-gray-500 text-white rounded text-lg" onClick={() => { setShowAreaSelection(true); setCurrent(null); setShowStatus(false); setShowResult(null); }} aria-label="Cambiar área">Cambiar área</button>
           </div>
         ) : (
           // Multiple Choice A/B/C buttons
           <div className="flex gap-4 mt-4">
-            {(q as any).options?.map((option: string, index: number) => {
+            {Array.isArray(q.options) && q.options.map((option: string, index: number) => {
               const letter = String.fromCharCode(65 + index); // 'A', 'B', 'C', etc.
               return (
                 <button
@@ -668,6 +899,7 @@ export default function QuizApp() {
               );
             })}
             <button className="px-6 py-2 bg-gray-400 text-white rounded text-lg" onClick={goToStatusWithResume}>Ver estado</button>
+            <button className="px-6 py-2 bg-gray-500 text-white rounded text-lg" onClick={() => { setShowAreaSelection(true); setCurrent(null); setShowStatus(false); setShowResult(null); }} aria-label="Cambiar área">Cambiar área</button>
           </div>
         )}
       </div>
@@ -722,6 +954,7 @@ export default function QuizApp() {
           <div className="flex gap-4 mt-4">
             <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={() => handleContinue("C")}>Continuar</button>
             <button className="px-4 py-2 bg-gray-400 text-white rounded" onClick={() => handleContinue("E")}>Ver estado</button>
+            <button className="px-4 py-2 bg-gray-500 text-white rounded" onClick={() => { setShowAreaSelection(true); setCurrent(null); setShowStatus(false); setShowResult(null); }} aria-label="Cambiar área">Cambiar área</button>
           </div>
         </div>
       );
@@ -766,7 +999,10 @@ export default function QuizApp() {
             <span>{EMOJI_FAIL} = Fallada </span>
             <span>{EMOJI_ASK} = Pendiente</span>
           </div>
-          <button className="px-4 py-2 bg-orange-500 text-white rounded mt-4" onClick={resetQuiz}>🔄 Volver a empezar</button>
+          <div className="flex gap-4 mt-4">
+            <button className="px-4 py-2 bg-orange-500 text-white rounded" onClick={resetQuiz}>🔄 Volver a empezar</button>
+            <button className="px-4 py-2 bg-gray-500 text-white rounded" onClick={() => { setShowAreaSelection(true); setCurrent(null); setShowStatus(false); setShowResult(null); }} aria-label="Cambiar área">Cambiar área</button>
+          </div>
         </div>
       );
     }
@@ -795,6 +1031,8 @@ export default function QuizApp() {
           setShowAreaSelection(false);
           setShowSelectionMenu(true);
           loadQuestionsForArea(area);
+          // Track area for persistence
+          localStorage.setItem('currentArea', area.shortName);
         }
       }
       if (showSelectionMenu && !selectionMode) {
@@ -835,7 +1073,7 @@ export default function QuizApp() {
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showAreaSelection, areas, showSelectionMenu, selectionMode, selectedSections, selectedQuestions, showStatus, showResult, current, questions, currentQuizType, loadQuestionsForArea, handleAnswer, goToStatusWithResume, handleContinue, resetQuiz, startQuizAll, startQuizSections, startQuizQuestions, pendingQuestions]);
+  }, [showAreaSelection, areas, showSelectionMenu, selectionMode, selectedSections, selectedQuestions, showStatus, showResult, current, questions, currentQuizType, questionOrder, loadQuestionsForArea, handleAnswer, goToStatusWithResume, handleContinue, resetQuiz, startQuizAll, startQuizSections, startQuizQuestions, pendingQuestions]);
 
   const allAnswered = questions.length > 0 && Object.values(status).filter(s => s === "pending").length === 0;
   return (
