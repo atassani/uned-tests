@@ -10,5 +10,11 @@
     "file": "questions_ipc.json",
     "type": "Multiple Choice",
     "shortName": "ipc"
+  },
+  {
+    "area": "Filosofía del Lenguaje",
+    "file": "questions_fdl.json",
+    "type": "Multiple Choice",
+    "shortName": "fdl"
   }
 ]

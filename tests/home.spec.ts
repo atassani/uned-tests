@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 
 // Clear localStorage before each test to ensure a clean state
@@ -13,17 +12,27 @@ const homePath = basePath ? `${basePath}/` : '/';
 
 test('True/False quiz works for Lógica I area', async ({ page }) => {
   await page.goto(homePath);
-  
-  await page.getByRole('button', { name: /Lógica I/ }).click();
-  await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-  
+
+  // Wait for area button and click
+  const areaBtn = page.getByRole('button', { name: /Lógica I/ });
+  await expect(areaBtn).toBeVisible({ timeout: 5000 });
+  await areaBtn.click();
+
+  // Wait for "Todas las preguntas" button and click
+  const todasBtn = page.getByRole('button', { name: 'Todas las preguntas' });
+  await expect(todasBtn).toBeVisible({ timeout: 5000 });
+  await todasBtn.click();
+
   // Should see True/False question interface
-  await expect(page.getByRole('button', { name: 'V', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'F', exact: true })).toBeVisible();
-  
+  const vBtn = page.getByRole('button', { name: 'V', exact: true });
+  const fBtn = page.getByRole('button', { name: 'F', exact: true });
+  await expect(vBtn).toBeVisible({ timeout: 5000 });
+  await expect(fBtn).toBeVisible({ timeout: 5000 });
+
   // Answer a question
-  await page.getByRole('button', { name: 'V', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Continuar' })).toBeVisible();
+  await vBtn.click();
+  const continuarBtn = page.getByRole('button', { name: 'Continuar' });
+  await expect(continuarBtn).toBeVisible({ timeout: 5000 });
 });
 
 test('Multiple Choice quiz shows question text with A/B/C buttons (consistent with True/False)', async ({ page }) => {
@@ -54,12 +63,12 @@ test('shows area name in question view', async ({ page }) => {
   await expect(page.getByText('Lógica I')).toBeVisible();
 });
 
-test('shows area name in status view ("Ver Estado")', async ({ page }) => {
+test('shows area name in status view ("Options")', async ({ page }) => {
   await page.goto(homePath);
   
   await page.getByRole('button', { name: /Lógica I/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-  await page.getByRole('button', { name: 'Ver estado' }).click();
+    await page.getByRole('button', { name: 'Options' }).click();
   
   // Should show area name at top of status view
   await expect(page.getByText('Lógica I')).toBeVisible();
@@ -71,7 +80,7 @@ test('shows area name in question selection menu', async ({ page }) => {
   await page.getByRole('button', { name: /Lógica I/ }).click();
   
   // Should show area name in the question selection menu
-  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible();
 });
 
 test('migrates old quizStatus to area-specific storage without .json suffix', async ({ page }) => {
@@ -98,6 +107,9 @@ test('migrates old quizStatus to area-specific storage without .json suffix', as
 
 test('Multiple Choice quiz works for IPC area', async ({ page }) => {
   await page.goto(homePath);
+  await page.evaluate(() => {
+    localStorage.clear(); 
+  });
   
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
@@ -144,16 +156,17 @@ test('selects one section and starts quiz in Lógica I area', async ({ page }) =
   await page.getByRole('button', { name: 'Seleccionar secciones' }).click();
   await page.getByRole('checkbox', { name: 'CUESTIONES DE LOS APUNTES' }).check();
   await page.getByRole('button', { name: 'Empezar' }).click();
-  await page.getByText('📊 Total: 55 | Correctas: 0').click();
-  await expect(page.locator('body')).toContainText('📊 Total: 55 | Correctas: 0 | Falladas: 0 | Pendientes: 55');
 
-  await page.getByRole('button', { name: 'Ver estado' }).click();
+  // Updated: match the new concise status line with icons and separators
+  await expect(page.locator('body')).toContainText(' 55| ✅ 0| ❌ 0| ❓ 55');
+
+  await page.getByRole('button', { name: 'Options' }).click();
   await page.getByText('📚 CUESTIONES DE LOS APUNTES1').click();
   await expect(page.locator('body')).toContainText('📚 CUESTIONES DE LOS APUNTES1❓2❓3❓4❓5❓6❓7❓8❓9❓10❓11❓12❓13❓14❓15❓16❓17❓18❓19❓20❓21❓22❓23❓24❓25❓26❓27❓28❓29❓30❓31❓32❓33❓34❓35❓36❓37❓38❓39❓40❓41❓42❓43❓44❓45❓46❓47❓48❓49❓50❓51❓52❓53❓54❓55❓');
 
-  await page.getByRole('button', { name: 'Continuar' }).click();
+  await page.getByRole('button', { name: 'Continuar' }).first().click();
   await page.getByRole('button', { name: 'V', exact: true }).click();
-  await page.getByRole('button', { name: 'Continuar' }).click();
+  await page.getByRole('button', { name: 'Continuar' }).first().click();
 });
 
 test('MCQ shows expected answer in correct format when wrong answer is selected', async ({ page }) => {
@@ -201,14 +214,14 @@ test('shows area name with mortarboard on menu page', async ({ page }) => {
   await page.getByRole('button', { name: /Lógica I/ }).click();
   
   // Should see area name with mortarboard on menu page
-  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible();
   
   // Navigate to IPC area 
   await page.getByRole('button', { name: 'Cambiar área' }).click();
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
   
   // Should see area name with mortarboard on IPC menu page
-  await expect(page.getByText('🎓 Introducción al Pensamiento Científico')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Introducción al Pensamiento Científico')).toBeVisible();
 });
 
 test('shows area name with mortarboard on section selection page', async ({ page }) => {
@@ -219,7 +232,7 @@ test('shows area name with mortarboard on section selection page', async ({ page
   await page.getByRole('button', { name: 'Seleccionar secciones' }).click();
   
   // Should see area name with mortarboard on section selection page
-  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible();
 });
 
 test('shows area name with mortarboard on question selection page', async ({ page }) => {
@@ -230,7 +243,7 @@ test('shows area name with mortarboard on question selection page', async ({ pag
   await page.getByRole('button', { name: 'Seleccionar preguntas' }).click();
   
   // Should see area name with mortarboard on question selection page
-  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible();
 });
 
 test('shows area name with mortarboard on True/False answer page', async ({ page }) => {
@@ -242,7 +255,7 @@ test('shows area name with mortarboard on True/False answer page', async ({ page
   await page.getByRole('button', { name: 'V', exact: true }).click();
   
   // Should see area name with mortarboard on True/False answer page
-  await expect(page.getByText('🎓 Lógica I')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible();
 });
 
 test('shows area name with mortarboard on MCQ answer page', async ({ page }) => {
@@ -254,7 +267,7 @@ test('shows area name with mortarboard on MCQ answer page', async ({ page }) => 
   await page.getByRole('button', { name: 'A', exact: true }).click();
   
   // Should see area name with mortarboard on MCQ answer page
-  await expect(page.getByText('🎓 Introducción al Pensamiento Científico')).toBeVisible();
+  await expect(page.getByText('🎓 Área: Introducción al Pensamiento Científico')).toBeVisible();
 });
 
 test('remembers last studied area in localStorage', async ({ page }) => {
@@ -269,8 +282,8 @@ test('remembers last studied area in localStorage', async ({ page }) => {
   expect(currentArea).toBe('log1');
 
   // Go to different area
-  await page.getByRole('button', { name: 'Ver estado' }).click();
-  await page.getByRole('button', { name: 'Cambiar área' }).click();
+    await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name: 'Cambiar área' }).first().click();
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
 
   // Check that currentArea is updated (now shortName)
@@ -291,7 +304,7 @@ test('automatically returns to last studied area on app reload', async ({ page }
   // Should automatically return to IPC menu (not area selection)
   // Accept either the menu or question view, since the app may restore to either
   const menuVisible = await page.getByText('¿Cómo quieres las preguntas?').isVisible().catch(() => false);
-  const areaMenuVisible = await page.getByText('🎓 Introducción al Pensamiento Científico').isVisible().catch(() => false);
+  const areaMenuVisible = await page.getByText('🎓 Área: Introducción al Pensamiento Científico').isVisible().catch(() => false);
   const areaSelectionVisible = await page.getByText('¿Qué quieres estudiar?').isVisible().catch(() => false);
 
   // If not in menu, check if in question view (should not be in area selection)
@@ -332,24 +345,22 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
 
   // Check and store the number of pending questions after answering one in Lógica I
   const statusText = await page.locator('body').innerText();
-  const pendientesMatch = statusText.match(/Pendientes: (\d+)/);
+  const pendientesMatch = statusText.match(/\|\s*❓\s*(\d+)/);
   expect(pendientesMatch).not.toBeNull();
   const pendientesBefore = pendientesMatch ? parseInt(pendientesMatch[1], 10) : null;
   // Extract section name (assume it's after the 📚 emoji and before a line break)
   const sectionMatch = statusText.match(/📚 ([^\n]+)/);
   const sectionBefore = sectionMatch ? sectionMatch[1].trim() : null;
-  // Debug output
-  // ...existing code...
 
   // Switch to IPC area
-  await page.getByRole('button', { name: 'Ver estado' }).click();
-  await page.getByRole('button', { name: 'Cambiar área' }).click();
+    await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name: 'Cambiar área' }).first().click();
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
 
   // Debug: print all visible buttons and page text after switching area
   const allButtons = await page.locator('button').allTextContents();
   const pageText = await page.locator('body').innerText();
-  // ...existing code...
+
 
   // App resumes at the question directly, so answer the question in IPC
 
@@ -364,8 +375,8 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   await page.getByRole('button', { name: 'Continuar' }).click();
 
   // Switch back to Lógica I
-  await page.getByRole('button', { name: 'Ver estado' }).click();
-  await page.getByRole('button', { name: 'Cambiar área' }).click();
+    await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name: 'Cambiar área' }).first().click();
   await page.getByRole('button', { name: /Lógica I/ }).click();
 
   // Wait for React state updates to complete
@@ -375,7 +386,7 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   // Debug: print all visible buttons and page text after switching back
   const allButtonsAfter = await page.locator('button').allTextContents();
   const pageTextAfter = await page.locator('body').innerText();
-  // ...existing code...
+
 
   // Check for question UI (e.g., answer buttons)
   const vButtonVisible = await page.getByRole('button', { name: 'V', exact: true }).isVisible().catch(() => false);
@@ -385,10 +396,11 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   expect(vButtonVisible || fButtonVisible || aButtonVisible).toBe(true);
   // Check that the number of pending questions is the same as before switching
   const statusTextAfter = pageTextAfter;
-  const pendientesMatchAfter = statusTextAfter.match(/Pendientes: (\d+)/);
+  const pendientesMatchAfter = statusTextAfter.match(/\|\s*❓\s*(\d+)/);
   expect(pendientesMatchAfter).not.toBeNull();
   const pendientesAfter = pendientesMatchAfter ? parseInt(pendientesMatchAfter[1], 10) : null;
   const sectionMatchAfter = statusTextAfter.match(/📚 ([^\n]+)/);
   const sectionAfter = sectionMatchAfter ? sectionMatchAfter[1].trim() : null;
   expect(pendientesAfter).toBe(pendientesBefore);
+  expect(sectionAfter).toBe(sectionBefore);
 });
