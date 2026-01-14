@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { setupFreshTest } from './helpers';
 
-const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || '').replace(/\/$/, '');
-const homePath = basePath ? `${basePath}/` : '/';
+test.beforeEach(async ({ page }) => {
+  await setupFreshTest(page);
+});
 
 test('Area selection shows short names prominently and full names below', async ({ page }) => {
-  await page.goto(homePath);
   // Short names (e.g., LOG1, IPC) should be visible and prominent
   await expect(page.getByText('LOG1', { exact: true })).toBeVisible();
   await expect(page.getByText('IPC', { exact: true })).toBeVisible();

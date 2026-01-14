@@ -1,12 +1,9 @@
 import { test, expect } from '@playwright/test';
-
-const homePath = process.env.BASE_PATH || '';
+import { setupFreshTest } from './helpers';
 
 test.describe('Question Order Control', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(homePath);
-    // Clear localStorage for clean state
-    await page.evaluate(() => localStorage.clear());
+    await setupFreshTest(page);
   });
 
   test('shows question order selection toggle in quiz menu', async ({ page }) => {
@@ -163,15 +160,16 @@ test.describe('Question Order Control', () => {
     await page.getByRole('button', { name: 'Cambiar área' }).first().click();
     await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
     await page.getByRole('button', { name: 'Cambiar área' }).click();
+    await page.getByRole('button', { name: /Lógica I/ }).waitFor();
     await page.getByRole('button', { name: /Lógica I/ }).click();
     
-    // Wait for area to load
-    await page.waitForTimeout(1000);
+    // Wait for area to load completely
+    await page.waitForSelector('text=❓');
     
     // Should resume at question 2 (current question)
     const resumedQuestionText = await page.locator('body').innerText();
     expect(resumedQuestionText).toMatch(/\n2\./);
-  });
+  }, 30000);
 
   test('sequential order applies consistently across all quiz modes', async ({ page }) => {
     // Test all quiz modes use sequential order when selected

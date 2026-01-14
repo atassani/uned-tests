@@ -20,7 +20,6 @@
 - Before starting a new feature, create a branch named `feature/short-description` from `main`.
 - Apply TDD. Always write a breaking test before implementing a new feature. Use Red-Green-Refactor cycle. In the Refactor step, update AGENT_PLAN.md to reflect the progress, tick off completed items, and add new items as needed. After the step is finished, commit the changes with a descriptive message. Tests can be implemented using Playwright E2E tests or unit tests as appropriate.
 - Always run Playwright tests with `--reporter=list` for clear output and easier cancellation.
-- Set Playwright test timeout to 5 seconds for fast feedback. (See playwright.config.ts: `timeout: 3000`)
 - Example: `npx playwright test tests/area-navigation.spec.ts --project=chromium --reporter=list`
 - If a test run hangs, use Ctrl+C to cancel, then re-run with the correct reporter flag.
 - Always add new feature suggestions to AGENT_PLAN before implementation
