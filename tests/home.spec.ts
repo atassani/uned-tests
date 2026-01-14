@@ -3,7 +3,12 @@ import { test, expect } from '@playwright/test';
 // Clear localStorage before each test to ensure a clean state
 test.beforeEach(async ({ page }) => {
   await page.goto(homePath);
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+  // Wait for initial page load to complete
+  await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible({ timeout: 10000 });
 });
 
 // Use base path from environment for all tests
@@ -11,8 +16,6 @@ const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || '').replace(/\/$/, '');
 const homePath = basePath ? `${basePath}/` : '/';
 
 test('True/False quiz works for Lógica I area', async ({ page }) => {
-  await page.goto(homePath);
-
   // Wait for area button and click
   const areaBtn = page.getByRole('button', { name: /Lógica I/ });
   await expect(areaBtn).toBeVisible({ timeout: 5000 });
@@ -22,6 +25,9 @@ test('True/False quiz works for Lógica I area', async ({ page }) => {
   const todasBtn = page.getByRole('button', { name: 'Todas las preguntas' });
   await expect(todasBtn).toBeVisible({ timeout: 5000 });
   await todasBtn.click();
+
+  // Wait for a unique question container to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
 
   // Should see True/False question interface
   const vBtn = page.getByRole('button', { name: 'V', exact: true });
@@ -36,25 +42,22 @@ test('True/False quiz works for Lógica I area', async ({ page }) => {
 });
 
 test('Multiple Choice quiz shows question text with A/B/C buttons (consistent with True/False)', async ({ page }) => {
-  await page.goto(homePath);
-  
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-  
-  // Should see question text (not as buttons)
-  await expect(page.locator('.question-text')).toBeVisible();
-  
+
+  // Wait for question text to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
+
   // Should see A/B/C buttons at the bottom (not full option text as buttons)
-  await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'B', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'C', exact: true })).toBeVisible();
-  
+  await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible({ timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'B', exact: true })).toBeVisible({ timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'C', exact: true })).toBeVisible({ timeout: 5000 });
+
   // Should NOT see buttons with full option text
   await expect(page.getByRole('button', { name: /No es objetivo porque hay personas/ })).not.toBeVisible();
 });
 
 test('shows area name in question view', async ({ page }) => {
-  await page.goto(homePath);
   
   await page.getByRole('button', { name: /Lógica I/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
@@ -64,7 +67,6 @@ test('shows area name in question view', async ({ page }) => {
 });
 
 test('shows area name in status view ("Options")', async ({ page }) => {
-  await page.goto(homePath);
   
   await page.getByRole('button', { name: /Lógica I/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
@@ -75,7 +77,6 @@ test('shows area name in status view ("Options")', async ({ page }) => {
 });
 
 test('shows area name in question selection menu', async ({ page }) => {
-  await page.goto(homePath);
   
   await page.getByRole('button', { name: /Lógica I/ }).click();
   
@@ -85,7 +86,6 @@ test('shows area name in question selection menu', async ({ page }) => {
 
 test('migrates old quizStatus to area-specific storage without .json suffix', async ({ page }) => {
   // Set up old localStorage data
-  await page.goto(homePath);
   await page.evaluate(() => {
     localStorage.setItem('quizStatus', '{"0": "correct", "1": "fail"}');
   });
@@ -106,26 +106,26 @@ test('migrates old quizStatus to area-specific storage without .json suffix', as
 });
 
 test('Multiple Choice quiz works for IPC area', async ({ page }) => {
-  await page.goto(homePath);
-  await page.evaluate(() => {
-    localStorage.clear(); 
-  });
+  // Ensure we're in area selection
+  await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible({ timeout: 5000 });
   
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-  
+
+  // Wait for question text to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
+
   // Should see Multiple Choice question interface with options
-  await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'B', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'C', exact: true })).toBeVisible();
-  
+  await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible({ timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'B', exact: true })).toBeVisible({ timeout: 5000 });
+  await expect(page.getByRole('button', { name: 'C', exact: true })).toBeVisible({ timeout: 5000 });
+
   // Answer a question
   await page.getByRole('button', { name: 'A', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Continuar' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Continuar' })).toBeVisible({ timeout: 5000 });
 });
 
 test('keyboard shortcuts work for area selection', async ({ page }) => {
-  await page.goto(homePath);
   
   // Wait for areas to load
   await expect(page.getByRole('button', { name: /Lógica I/ })).toBeVisible();
@@ -138,7 +138,6 @@ test('keyboard shortcuts work for area selection', async ({ page }) => {
 });
 
 test('keyboard shortcuts work for Multiple Choice questions', async ({ page }) => {
-  await page.goto(homePath);
   
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
@@ -150,7 +149,6 @@ test('keyboard shortcuts work for Multiple Choice questions', async ({ page }) =
 
 
 test('selects one section and starts quiz in Lógica I area', async ({ page }) => {
-  await page.goto(homePath);
 
   await page.getByRole('button', { name: /Lógica I/ }).click();
   await page.getByRole('button', { name: 'Seleccionar secciones' }).click();
@@ -170,35 +168,39 @@ test('selects one section and starts quiz in Lógica I area', async ({ page }) =
 });
 
 test('MCQ shows expected answer in correct format when wrong answer is selected', async ({ page }) => {
-  await page.goto(homePath);
-  
   // Navigate to IPC area with MCQ questions
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-  
+
+  // Wait for question text to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
+
   // Wait for first question to load - use exact match for A button
-  await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible();
-  
+  await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible({ timeout: 5000 });
+
   // Click on answer A
   await page.getByRole('button', { name: 'A', exact: true }).click();
-  
+
   // Check if it shows "Incorrecto" - if so, verify expected answer format
   const isIncorrect = await page.getByText('❌ Incorrecto.').isVisible();
-  
+
   if (isIncorrect) {
     // Should show "Respuesta esperada X) ..." format in the answer section
     const answerSection = page.locator('.text-red-600');
     await expect(answerSection).toBeVisible();
-    
+
     // The answer should start with "Respuesta esperada" followed by the letter and option text
     await expect(answerSection).toContainText(/^Respuesta esperada [ABC]\) /);
   } else {
     // If A was correct, try B
     await page.getByRole('button', { name: 'Continuar' }).click();
     await page.getByRole('button', { name: 'B', exact: true }).click();
-    
+
+    // Wait for question text again to ensure UI is ready
+    await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
+
     const isIncorrectB = await page.getByText('❌ Incorrecto.').isVisible();
-    
+
     if (isIncorrectB) {
       const answerSection = page.locator('.text-red-600');
       await expect(answerSection).toBeVisible();
@@ -208,7 +210,6 @@ test('MCQ shows expected answer in correct format when wrong answer is selected'
 });
 
 test('shows area name with mortarboard on menu page', async ({ page }) => {
-  await page.goto(homePath);
   
   // Navigate to Lógica I area
   await page.getByRole('button', { name: /Lógica I/ }).click();
@@ -225,7 +226,6 @@ test('shows area name with mortarboard on menu page', async ({ page }) => {
 });
 
 test('shows area name with mortarboard on section selection page', async ({ page }) => {
-  await page.goto(homePath);
   
   // Navigate to Lógica I and go to section selection
   await page.getByRole('button', { name: /Lógica I/ }).click();
@@ -236,7 +236,6 @@ test('shows area name with mortarboard on section selection page', async ({ page
 });
 
 test('shows area name with mortarboard on question selection page', async ({ page }) => {
-  await page.goto(homePath);
   
   // Navigate to Lógica I and go to question selection
   await page.getByRole('button', { name: /Lógica I/ }).click();
@@ -247,7 +246,6 @@ test('shows area name with mortarboard on question selection page', async ({ pag
 });
 
 test('shows area name with mortarboard on True/False answer page', async ({ page }) => {
-  await page.goto(homePath);
   
   // Test True/False answer page
   await page.getByRole('button', { name: /Lógica I/ }).click();
@@ -259,7 +257,6 @@ test('shows area name with mortarboard on True/False answer page', async ({ page
 });
 
 test('shows area name with mortarboard on MCQ answer page', async ({ page }) => {
-  await page.goto(homePath);
   
   // Test MCQ answer page
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
@@ -271,7 +268,6 @@ test('shows area name with mortarboard on MCQ answer page', async ({ page }) => 
 });
 
 test('remembers last studied area in localStorage', async ({ page }) => {
-  await page.goto(homePath);
   
   // Select Lógica I area
   await page.getByRole('button', { name: /Lógica I/ }).click();
@@ -292,7 +288,6 @@ test('remembers last studied area in localStorage', async ({ page }) => {
 });
 
 test('automatically returns to last studied area on app reload', async ({ page }) => {
-  await page.goto(homePath);
   
   // Select IPC area and start quiz
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
@@ -319,10 +314,6 @@ test('automatically returns to last studied area on app reload', async ({ page }
 });
 
 test('restores to area selection if no previous area stored', async ({ page }) => {
-  // Clear localStorage
-  await page.goto(homePath);
-  await page.evaluate(() => localStorage.clear());
-  
   // Reload page
   await page.reload();
   
@@ -332,14 +323,14 @@ test('restores to area selection if no previous area stored', async ({ page }) =
 });
 
 test('preserves quiz progress when switching between areas', async ({ page }) => {
-  // Ensure clean state at the start
-  await page.goto(homePath);
-  await page.evaluate(() => localStorage.clear());
-  await page.reload();
-
   // Start Lógica I quiz and answer a question
   await page.getByRole('button', { name: /Lógica I/ }).click();
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible({ timeout: 5000 });
   await page.getByRole('button', { name: 'Todas las preguntas' }).click();
+
+  // Wait for question text to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
+
   await page.getByRole('button', { name: 'V', exact: true }).click();
   await page.getByRole('button', { name: 'Continuar' }).click();
 
@@ -353,40 +344,34 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   const sectionBefore = sectionMatch ? sectionMatch[1].trim() : null;
 
   // Switch to IPC area
-    await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name: 'Options' }).click();
   await page.getByRole('button', { name: 'Cambiar área' }).first().click();
+  await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible({ timeout: 5000 });
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
 
-  // Debug: print all visible buttons and page text after switching area
-  const allButtons = await page.locator('button').allTextContents();
-  const pageText = await page.locator('body').innerText();
+  // Wait for IPC area to load and navigate to questions
+  await expect(page.getByText('🎓 Área: Introducción al Pensamiento Científico')).toBeVisible({ timeout: 5000 });
+  await page.getByRole('button', { name: 'Todas las preguntas' }).click();
 
+  // Wait for question text to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
 
-  // App resumes at the question directly, so answer the question in IPC
-
-  // If the selection menu is shown, click 'Todas las preguntas' to start the quiz in IPC
-  const todasPreguntasButton = page.getByRole('button', { name: 'Todas las preguntas' });
-  if (await todasPreguntasButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-    await todasPreguntasButton.click();
-  }
   // Now answer a question in IPC
   await expect(page.getByRole('button', { name: 'A', exact: true })).toBeVisible({ timeout: 5000 });
   await page.getByRole('button', { name: 'A', exact: true }).click();
   await page.getByRole('button', { name: 'Continuar' }).click();
 
   // Switch back to Lógica I
-    await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name: 'Options' }).click();
   await page.getByRole('button', { name: 'Cambiar área' }).first().click();
+  await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible({ timeout: 5000 });
   await page.getByRole('button', { name: /Lógica I/ }).click();
 
-  // Wait for React state updates to complete
-  await page.waitForTimeout(500);
+  // Wait for Lógica I area to load and navigate to questions
+  await expect(page.getByText('🎓 Área: Lógica I')).toBeVisible({ timeout: 5000 });
 
-  // After switching back to Lógica I, app should resume at the question view (not menu)
-  // Debug: print all visible buttons and page text after switching back
-  const allButtonsAfter = await page.locator('button').allTextContents();
-  const pageTextAfter = await page.locator('body').innerText();
-
+  // Wait for question text to ensure UI is ready
+  await expect(page.locator('.question-text')).toBeVisible({ timeout: 5000 });
 
   // Check for question UI (e.g., answer buttons)
   const vButtonVisible = await page.getByRole('button', { name: 'V', exact: true }).isVisible().catch(() => false);
@@ -395,7 +380,7 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   // At least one answer button should be visible
   expect(vButtonVisible || fButtonVisible || aButtonVisible).toBe(true);
   // Check that the number of pending questions is the same as before switching
-  const statusTextAfter = pageTextAfter;
+  const statusTextAfter = await page.locator('body').innerText();
   const pendientesMatchAfter = statusTextAfter.match(/\|\s*❓\s*(\d+)/);
   expect(pendientesMatchAfter).not.toBeNull();
   const pendientesAfter = pendientesMatchAfter ? parseInt(pendientesMatchAfter[1], 10) : null;
