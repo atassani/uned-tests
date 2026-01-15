@@ -326,6 +326,7 @@ export default function QuizApp() {
 
   // Reset quiz state
   const resetQuiz = useCallback(() => {
+    // Clear React state first
     setShowSelectionMenu(true);
     setSelectionMode(null);
     setQuestions([]);
@@ -335,7 +336,81 @@ export default function QuizApp() {
     setShowResult(null);
     setSelectedSections(new Set());
     setSelectedQuestions(new Set());
-  }, []);
+
+    // Robust localStorage clearing for iOS Safari compatibility
+    const clearLocalStorageRobust = () => {
+      if (!selectedArea) {
+        // Clear generic currentArea if no selected area
+        try {
+          localStorage.removeItem('currentArea');
+        } catch (error) {
+          console.warn('Failed to remove currentArea:', error);
+        }
+        return;
+      }
+      
+      const areaKey = selectedArea.shortName;
+      const keysToRemove = [
+        'currentArea',
+        `quizStatus_${areaKey}`,
+        `currentQuestion_${areaKey}`,
+        `selectedQuestions_${areaKey}`,
+        `questionOrder_${areaKey}`
+      ];
+
+      // Method 1: Standard removal with error handling
+      keysToRemove.forEach(key => {
+        try {
+          localStorage.removeItem(key);
+        } catch (error) {
+          console.warn(`Failed to remove localStorage key: ${key}`, error);
+        }
+      });
+
+      // Method 2: Verification and retry for iOS Safari edge cases
+      // Some iOS versions may not immediately remove items
+      setTimeout(() => {
+        keysToRemove.forEach(key => {
+          try {
+            if (localStorage.getItem(key) !== null) {
+              localStorage.removeItem(key);
+              console.log(`Retried removal of localStorage key: ${key}`);
+            }
+          } catch (error) {
+            console.error(`Failed to remove localStorage key on retry: ${key}`, error);
+          }
+        });
+      }, 50);
+
+      // Method 3: iOS Safari fallback - try setting to empty string if removal fails
+      setTimeout(() => {
+        keysToRemove.forEach(key => {
+          try {
+            if (localStorage.getItem(key) !== null) {
+              localStorage.setItem(key, '');
+              console.log(`Fallback: set localStorage key to empty: ${key}`);
+            }
+          } catch (error) {
+            console.error(`Fallback failed for localStorage key: ${key}`, error);
+          }
+        });
+      }, 100);
+    };
+
+    // Execute localStorage clearing with iOS compatibility measures
+    try {
+      clearLocalStorageRobust();
+    } catch (error) {
+      console.error('Error clearing localStorage:', error);
+      // Last resort for iOS Safari - try clearing all localStorage
+      try {
+        localStorage.clear();
+        console.log('Performed full localStorage.clear() as fallback');
+      } catch (clearError) {
+        console.error('Even localStorage.clear() failed:', clearError);
+      }
+    }
+  }, [selectedArea]);
 
   // Start quiz with all questions
   // Centralized ordering logic
@@ -841,7 +916,12 @@ export default function QuizApp() {
         <button className="px-4 py-2 bg-blue-600 text-white rounded" onClick={() => handleContinue("C")} disabled={pendingQuestions().length === 0} aria-label="Continuar">
           {pendingQuestions().length === 0 ? EMOJI_DONE + " ¡Completado!" : "Continuar"}
         </button>
-        <button className="px-4 py-2 bg-orange-500 text-white rounded" onClick={resetQuiz} aria-label="Volver a empezar">
+        <button 
+          className="px-4 py-2 bg-orange-500 text-white rounded" 
+          onClick={resetQuiz}
+          onTouchEnd={resetQuiz}
+          aria-label="Volver a empezar"
+        >
           🔄 Volver a empezar
         </button>
         <button className="px-4 py-2 bg-gray-500 text-white rounded" onClick={() => { 
