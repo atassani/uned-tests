@@ -227,8 +227,6 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/) for all c
    - In the description, summarize:
      - What changed
      - Why it changed
-     - Tests added/updated
-     - How to verify the changes
 
 3. **After review and approval:**
    - Click "Merge pull request" on GitHub.
