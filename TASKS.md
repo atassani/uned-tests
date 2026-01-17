@@ -52,6 +52,13 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 - **Reporter:** TT
 - **Notes:** Today we store `currentArea`, `quizStatus_*`, `questionOrder_*`, `currentQuestion_*`. Consider one `unedTestsData` object.
 
+### TECH-003 — Separate application from data
+- **Status:** backlog
+- **Priority:** P3
+- **Reported:** 2025-01-17
+- **Reporter:** TT
+- **Notes:** Find a solution to separate app code from question data (e.g., JSON files). This would allow updating questions without redeploying the app.
+
 ---
 
 ## Done
