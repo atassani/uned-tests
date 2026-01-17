@@ -475,20 +475,9 @@ export default function QuizApp() {
     localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
     // Store selected questions for session restoration
     localStorage.setItem(`selectedQuestions_${areaKey}`, JSON.stringify(orderedQuestions.map(q => q.index)));
-    let startIdx: number | null = null;
-    const savedCurrent = localStorage.getItem(`currentQuestion_${areaKey}`);
-    if (savedCurrent !== null) {
-      const idx = Number(savedCurrent);
-      if (!isNaN(idx) && idx >= 0 && idx < filtered.length) {
-        startIdx = idx;
-      }
-    }
+    // Always start at the beginning when starting a new section selection
     if (filtered.length > 0) {
-      if (startIdx !== null && startIdx >= 0 && startIdx < filtered.length) {
-        setCurrent(startIdx);
-      } else {
-        setCurrent(0);
-      }
+      setCurrent(0);
       setShowStatus(false);
     } else {
       setCurrent(null);
@@ -524,20 +513,9 @@ export default function QuizApp() {
     localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
     // Store selected questions for session restoration
     localStorage.setItem(`selectedQuestions_${areaKey}`, JSON.stringify(orderedQuestions.map(q => q.index)));
-    let startIdx: number | null = null;
-    const savedCurrent = localStorage.getItem(`currentQuestion_${areaKey}`);
-    if (savedCurrent !== null) {
-      const idx = Number(savedCurrent);
-      if (!isNaN(idx) && idx >= 0 && idx < filtered.length) {
-        startIdx = idx;
-      }
-    }
+    // Always start at the beginning when starting a new question selection
     if (filtered.length > 0) {
-      if (startIdx !== null && startIdx >= 0 && startIdx < filtered.length) {
-        setCurrent(startIdx);
-      } else {
-        setCurrent(0);
-      }
+      setCurrent(0);
       setShowStatus(false);
     } else {
       setCurrent(null);
