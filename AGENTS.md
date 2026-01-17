@@ -133,6 +133,18 @@ npm run build
   - Use stable selectors (e.g., `data-testid` if the repo uses it).
   - Prefer assertions like `expect(...).toBeVisible()` over arbitrary timeouts.
 - Keep e2e scenarios short and focused.
+- Playwright E2E tests should use the shared helpers in `tests/e2e/helpers.ts` for consistent initialization and cleanup, unless have special conditions.
+- In each test file, use `beforeEach` to call `setupFreshTest(page)` and `waitForAppReady(page)` to ensure the app is loaded and in a clean state before each test.
+- Example:
+  ```typescript
+  import { setupFreshTest, waitForAppReady } from './helpers';
+  test.beforeEach(async ({ page }) => {
+    await setupFreshTest(page);
+    await waitForAppReady(page);
+    await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible();
+  });
+  ```
+- This ensures all tests start from the initial page and are reliable across environments.
 
 ---
 
