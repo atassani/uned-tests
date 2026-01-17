@@ -219,12 +219,14 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/) for all c
   - fix: prevent cross-area localStorage contamination
   ```
 
+
 ### PR description should include
 - What changed (1–3 bullets)
 - Why it changed
 - How to test locally
 - Any deployment impact (S3/Vercel)
 - Mention the **RED/GREEN commit structure** when relevant
+- **Always update CHANGELOG.md for every PR.**
 
 ---
 
