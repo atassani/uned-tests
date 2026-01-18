@@ -13,18 +13,6 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 
 ## Now
 
-### FEAT-003 — Shuffle multiple-choice answer order (optional)
-
-- **Status:** in-progress
-- **Priority:** P3
-- **Reported:** 2025-01-16
-- **Assignee:** GitHub Copilot
-- **Notes:** Randomize options each time; adjust correct answer accordingly; add setting to enable/disable.
-
----
-
-## Backlog
-
 ### TECH-002 — Consolidate localStorage keys under a single root key
 
 - **Status:** backlog
@@ -32,6 +20,10 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 - **Reported:** 2025-01-16
 - **Reporter:** TT
 - **Notes:** Today we store `currentArea`, `quizStatus_*`, `questionOrder_*`, `currentQuestion_*`. Consider one `unedTestsData` object.
+
+---
+
+## Backlog
 
 ### TECH-003 — Separate application from data
 
@@ -52,6 +44,16 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 ---
 
 ## Done
+
+### ✅ FEAT-003 — Shuffle multiple-choice answer order (optional)
+
+- **Status:** done
+- **Priority:** P3
+- **Reported:** 2025-01-16
+- **Assignee:** GitHub Copilot
+- **Completed:** 2026-01-18
+- **Notes:** Randomize options each time; adjust correct answer accordingly; add setting to enable/disable. Also: 'Aparece en' always at the end, only show order toggle for MCQ, and UI improvements for 'Aparece en'.
+  - See: [CHANGELOG.md]
 
 ### ✅ FEAT-002 — Support variable number of answers in multiple choice (2..5)
 

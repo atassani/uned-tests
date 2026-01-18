@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+- feat: add option to shuffle answers in Multiple Choice (toggle per area)
+- feat: only show question order toggle for Multiple Choice areas
+- feat: show 'Aparece en' always at the end (question and answer)
+- ui: reduce visual prominence of 'Aparece en' and its list (smaller, gray text)
 - feat: support variable number of MCQ answers (2-5)
 - feat: add test data infrastructure for E2E testing
 
