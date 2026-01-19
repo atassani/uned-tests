@@ -58,7 +58,7 @@ export function QuestionDisplay({
         dangerouslySetInnerHTML={formatRichText(`${q.number}. ${q.question}`)}
       ></div>
       {currentQuizType === 'Multiple Choice' && Array.isArray(q.options) && (
-        <div className="mt-4 space-y-2">
+        <div className="mt-4 space-y-2 question-options">
           {(displayOptions || []).map((option: string, index: number) => {
             const letter = String.fromCharCode(65 + index); // 'A', 'B', 'C', etc.
             return (

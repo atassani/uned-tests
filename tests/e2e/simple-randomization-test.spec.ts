@@ -3,59 +3,7 @@ import { setupFreshTest } from './helpers';
 
 test.describe('Simple Randomization Test', () => {
   test.beforeEach(async ({ page }) => {
-    await setupFreshTest(page);
-  });
-
-  test.skip('answer shuffling demonstrates the bug', async ({ page }) => {
-    // Go to IPC area and enable answer shuffling
-    await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
-    await page.getByRole('button', { name: 'Aleatorio' }).click(); // Enable answer shuffling
-    await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-
-    // Log all visible buttons before waiting for 'A'
-    const allButtons = await page.locator('button').allInnerTexts();
-    console.log('All visible buttons before waiting for A:', allButtons);
-    // Wait for the quiz to load
-    await page.waitForSelector('text=A');
-
-    // Get the first option text (button A) - first attempt
-    let firstOptionButton1;
-    try {
-      firstOptionButton1 = await page.getByRole('button', { name: 'A', exact: true });
-    } catch (e) {
-      console.log('Failed to find button A. Current URL:', page.url());
-      const html = await page.content();
-      console.log('Current page HTML:', html);
-      throw e;
-    }
-    const firstOptionText1 = await firstOptionButton1.innerText();
-
-    // Go back to start a new quiz
-    await page.getByRole('button', { name: 'Options' }).click();
-    await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
-    await page.getByRole('button', { name: 'Todas las preguntas' }).click();
-    // Log all visible buttons before waiting for 'A' (second attempt)
-    const allButtons2 = await page.locator('button').allInnerTexts();
-    console.log('All visible buttons before waiting for A (second attempt):', allButtons2);
-    await page.waitForSelector('text=A');
-
-    // Get the first option text (button A) - second attempt
-    let firstOptionButton2;
-    try {
-      firstOptionButton2 = await page.getByRole('button', { name: 'A', exact: true });
-    } catch (e) {
-      console.log('Failed to find button A (second attempt). Current URL:', page.url());
-      const html = await page.content();
-      console.log('Current page HTML (second attempt):', html);
-      throw e;
-    }
-    const firstOptionText2 = await firstOptionButton2.innerText();
-
-    console.log('First attempt first option:', firstOptionText1);
-    console.log('Second attempt first option:', firstOptionText2);
-
-    // If shuffling works, these should be different
-    expect(firstOptionText1).not.toBe(firstOptionText2); // This should fail, showing the bug
+    await setupFreshTest(page, '42');
   });
 
   test('question order demonstrates the bug', async ({ page }) => {

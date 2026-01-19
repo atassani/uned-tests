@@ -12,7 +12,7 @@
     "shortName": "ipc"
   },
   {
-    "area": "Filosofía del Lenguaje",
+    "area": "Filosofía del Lenguaje I",
     "file": "questions-fdl.json",
     "type": "Multiple Choice",
     "shortName": "fdl"

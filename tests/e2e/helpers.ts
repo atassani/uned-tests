@@ -4,19 +4,32 @@ const homePath = process.env.BASE_PATH || '';
 /**
  * Common test setup - navigate to home and clear state for fresh start
  */
-export async function setupFreshTest(page: Page) {
-  await page.goto(homePath);
+export async function setupFreshTest(page: Page, seed?: string) {
+  // Build the URL with seed if provided
+  let url = homePath;
+  if (seed) {
+    url += (url.includes('?') ? '&' : '?') + `seed=${encodeURIComponent(seed)}`;
+  }
+  await page.goto(url);
   // Clear localStorage for clean state
   await page.evaluate(() => localStorage.clear());
+  // Reload the page to ensure clean state and seed param
+  await page.goto(url);
 }
 
 /**
  * Test setup that makes sure any previous information is cleared.
  */
-export async function setupSuperFreshTest(page: Page) {
+export async function setupSuperFreshTest(page: Page, seed?: string) {
   try {
-    // Ensure the page is fully loaded before accessing localStorage
-    await page.goto(homePath, { waitUntil: 'domcontentloaded' });
+    // Build the URL with seed if provided
+    let url = homePath;
+    if (seed) {
+      url += (url.includes('?') ? '&' : '?') + `seed=${encodeURIComponent(seed)}`;
+    }
+
+    // Go to the URL (with or without seed)
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     // Clear localStorage, sessionStorage, and cookies if accessible
     await page.evaluate(() => {
@@ -29,10 +42,10 @@ export async function setupSuperFreshTest(page: Page) {
     });
     await page.context().clearCookies();
 
-    // Reload the page to reset the app state
-    await page.reload({ waitUntil: 'networkidle' });
+    // Reload the page to reset the app state, with the seed param if provided
+    await page.goto(url, { waitUntil: 'networkidle' });
 
-    // Verify the app is in the initial state
+    // Verify the app is in the initial state (area selection screen)
     await page.waitForSelector('text=¿Qué quieres estudiar?', { timeout: 10000 });
   } catch (error) {
     throw error; // Re-throw the error to ensure test fails with context
