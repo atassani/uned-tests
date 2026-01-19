@@ -52,7 +52,16 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 
 ## Done
 
-### ✅ FEAT-003 — Shuffle multiple-choice answer order (optional)
+### ✅ BUG-003 — Shuffle does not work and repeats same order
+
+- **Status:** backlog
+- **Priority:** P3
+- **Reported:** 2025-01-18
+- **Completed:** 2026-01-19
+- **Reporter:** TT
+- **Notes:** Modularised code. Fixed shuffling logic to properly randomize answer order on each attempt.
+
+### ✅ FEAT-003 — Shuffle multiple-choice answer order
 
 - **Status:** done
 - **Priority:** P3

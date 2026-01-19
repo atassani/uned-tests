@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- bug: fix answer shuffling logic to ensure proper randomization on each attempt
 - feat: add option to shuffle answers in Multiple Choice (toggle per area)
 - feat: only show question order toggle for Multiple Choice areas
 - feat: show 'Aparece en' always at the end (question and answer)
