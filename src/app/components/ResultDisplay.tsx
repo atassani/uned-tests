@@ -18,6 +18,7 @@ interface ResultDisplayProps {
   currentQuizType: 'True False' | 'Multiple Choice' | null;
   showResult: null | { correct: boolean; explanation: string };
   status: Record<number, 'correct' | 'fail' | 'pending'>;
+  userAnswers: Record<number, string>;
   handleContinue: (action: 'C' | 'E') => void;
   resetQuiz: () => void;
 }
@@ -29,9 +30,11 @@ export function ResultDisplay({
   currentQuizType,
   showResult,
   status,
+  userAnswers,
   handleContinue,
   resetQuiz,
 }: ResultDisplayProps) {
+  const [reviewIndex, setReviewIndex] = React.useState<number | null>(null);
   const allAnswered =
     questions.length > 0 && Object.values(status).filter((s) => s === 'pending').length === 0;
 
@@ -118,6 +121,61 @@ export function ResultDisplay({
     const failCount = Object.values(status).filter((s) => s === 'fail').length;
     const pendingCount = questions.length - (correctCount + failCount);
 
+    // If a question is selected for review, show its info
+    if (reviewIndex !== null && questions[reviewIndex]) {
+      const q = questions[reviewIndex];
+      return (
+        <>
+          <div className="space-y-6 mt-8 question-info">
+            {selectedArea && (
+              <div className="text-lg font-bold text-blue-600 mb-2">
+                🎓 Área: {selectedArea.area}
+              </div>
+            )}
+            <div className="font-bold text-lg">
+              {EMOJI_SECTION} {q.section}
+            </div>
+            <div
+              className="text-xl font-semibold rich-content question-text"
+              dangerouslySetInnerHTML={formatRichText(`${q.number}. ${q.question}`)}
+            ></div>
+            {/* Show user's answer and correct answer if available */}
+            <div className="mt-2">
+              <div className="font-semibold">Tu respuesta:</div>
+              <div className="text-base user-answer">
+                {status[q.index] === 'pending' ? (
+                  <span className="text-gray-500">No respondida</span>
+                ) : (
+                  userAnswers[q.index] || <span className="text-gray-500">No respondida</span>
+                )}
+              </div>
+              <div className="font-semibold mt-2">Respuesta correcta:</div>
+              <div className="text-base correct-answer">{q.answer}</div>
+            </div>
+            {/* appearsIn bullet list if present */}
+            {Array.isArray(q.appearsIn) && q.appearsIn.length > 0 && (
+              <div className="mt-2">
+                <div className="text-sm text-gray-500">Aparece en:</div>
+                <ul className="list-disc list-inside ml-4 text-sm text-gray-500">
+                  {q.appearsIn.map((ref: string, idx: number) => (
+                    <li key={idx}>{ref}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          <div className="flex gap-4 mt-4">
+            <button
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+              onClick={() => setReviewIndex(null)}
+            >
+              Volver al resumen
+            </button>
+          </div>
+        </>
+      );
+    }
+
     return (
       <div className="space-y-8 mt-8">
         {/* Show area name at top */}
@@ -144,18 +202,24 @@ export function ResultDisplay({
             <div className="font-bold text-lg mb-2">
               {EMOJI_SECTION} {section}
             </div>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-2 status-grid">
               {qs.map((q: QuestionType) => {
                 let emoji = EMOJI_ASK;
                 if (status[q.index] === 'correct') emoji = EMOJI_SUCCESS;
                 else if (status[q.index] === 'fail') emoji = EMOJI_FAIL;
                 return (
-                  <div key={q.index} className="flex flex-col items-center">
+                  <button
+                    key={q.index}
+                    className={`flex flex-col items-center focus:outline-none rounded status-box ${status[q.index]}`}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    onClick={() => setReviewIndex(q.index)}
+                    aria-label={`Ver pregunta ${q.number}`}
+                  >
                     <span className="text-2xl">
                       {q.number}
                       {emoji}
                     </span>
-                  </div>
+                  </button>
                 );
               })}
             </div>

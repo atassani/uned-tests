@@ -18,11 +18,14 @@ import { StatusGrid } from './components/StatusGrid';
 import { QuestionDisplay } from './components/QuestionDisplay';
 import { VersionLink } from './components/VersionLink';
 import { ResultDisplay } from './components/ResultDisplay';
+
 import { useQuizPersistence } from './hooks/useQuizPersistence';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useQuizLogic } from './hooks/useQuizLogic';
 
 export default function QuizApp() {
+  // Track user answers for each question (index -> answer string)
+  const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const canResumeRef = useRef(false);
   const [allQuestions, setAllQuestions] = useState<QuestionType[]>([]); // All loaded questions
   const [questions, setQuestions] = useState<QuestionType[]>([]); // Filtered questions for this session
@@ -469,9 +472,9 @@ export default function QuizApp() {
       const user = ans.trim().toUpperCase();
 
       let correct = false;
+      let answerToStore = ans;
 
       if (currentQuizType === 'True False') {
-        // True/False logic (existing)
         correct =
           user === expected ||
           (user === 'V' && expected === 'VERDADERO') ||
@@ -479,11 +482,11 @@ export default function QuizApp() {
           (user === 'VERDADERO' && expected === 'V') ||
           (user === 'FALSO' && expected === 'F');
       } else if (currentQuizType === 'Multiple Choice') {
-        // Multiple choice logic - convert letter to option text and compare
         const userLetter = user.toLowerCase();
-        const userIndex = userLetter.charCodeAt(0) - 97; // 'a' = 0, 'b' = 1, 'c' = 2, etc.
+        const userIndex = userLetter.charCodeAt(0) - 97;
         const userAnswer = q.options?.[userIndex] || '';
         correct = userAnswer === q.answer;
+        answerToStore = userAnswer;
       }
 
       const newStatus: Record<number, 'correct' | 'fail' | 'pending'> = {
@@ -491,6 +494,7 @@ export default function QuizApp() {
         [q.index]: correct ? 'correct' : 'fail',
       };
       setStatus(newStatus);
+      setUserAnswers((prev) => ({ ...prev, [q.index]: answerToStore }));
       const areaKey = selectedArea.shortName;
       localStorage.setItem(`quizStatus_${areaKey}`, JSON.stringify(newStatus));
       setShowResult({ correct, explanation: q.explanation });
@@ -676,6 +680,7 @@ export default function QuizApp() {
           currentQuizType={currentQuizType}
           showResult={showResult}
           status={status}
+          userAnswers={userAnswers}
           handleContinue={handleContinue}
           resetQuiz={resetQuiz}
         />
@@ -690,6 +695,7 @@ export default function QuizApp() {
           currentQuizType={currentQuizType}
           showResult={null}
           status={status}
+          userAnswers={userAnswers}
           handleContinue={handleContinue}
           resetQuiz={resetQuiz}
         />
