@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- fix: ensure section order in status grid matches section selection (BUG-004)
 - bug: fix answer shuffling logic to ensure proper randomization on each attempt
 - feat: add option to shuffle answers in Multiple Choice (toggle per area)
 - feat: only show question order toggle for Multiple Choice areas

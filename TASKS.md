@@ -19,14 +19,6 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 
 ## Now
 
-### BUG-004 Sections in the grid should always be listed in the same order, the same one used when offering sections to choose from: the one in the file
-
-- **Status:** backlog
-- **Priority:** P1
-- **Reported:** 2025-01-20
-- **Reporter:** TT
-- **Notes:** I haven't checked how they appear in Section selection, but in the grid they appear in a different order than in the file. In IPC I saw Exams and sections mixed up.
-
 ### BUG-005 — When working on T/F and sequential, after interrupting with options, when resuming it goes to a random question
 
 - **Status:** backlog
@@ -121,6 +113,15 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 ---
 
 ## Done
+
+### ✅ BUG-004 — Sections in the grid should always be listed in the same order, the same one used when offering sections to choose from: the one in the file
+
+- **Status:** done
+- **Priority:** P1
+- **Reported:** 2025-01-20
+- **Completed:** 2026-01-20
+- **Reporter:** TT
+- **Notes:** Fixed by passing the original section order from QuizApp to StatusGrid and sorting sections accordingly. See changelog and E2E test.
 
 ### ✅ BUG-003 — Shuffle does not work and repeats same order
 
