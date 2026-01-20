@@ -9,9 +9,22 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 - When finished, move it to **Done** (don’t delete it). Add PR/commit link or hash + completion date.
 - AI agents: pick the **first item in “Now”** (top to bottom). If “Now” is empty, pick the first **P1** item in Backlog.
 
+## Last number
+
+- FEAT: 6
+- BUG: 5
+- TECH: 7
+
 ---
 
 ## Now
+
+### FEAT-004 — Show the question in the grid when clicking
+
+- **Status:** Backlog
+- **Priority:** P3
+- **Reported:** 2025-01-19
+- **Notes:** When the status grid is shown, at the end of que quiz or when reviewing, clicking a question box should show that question immediately as information, not to answer it. If the question has been answered, it will also show the valid answer. In particular, I want to see in the final page after the test, when reviewing solutions, the question I got wrong, and go to their detail.
 
 ### TECH-002 — Consolidate localStorage keys under a single root key
 
@@ -25,12 +38,61 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 
 ## Backlog
 
-### FEAT-004 — Show the question in the grid when clicking
+### TEMPLATE
 
-- **Status:** Backlog
+- **Status:** backlog
+- **Priority:** [P1/P2/P3]
+- **Reported:** YYYY-MM-DD
+- **Reporter:** TT
+- **Notes:**
+
+### BUG-005 — When working on T/F and sequential, after interrupting with options, when resuming it goes to a random question
+
+- **Status:** backlog
+- **Priority:** P1
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** It may happen in MCQ.
+
+### BUG-004 Sections in the grid should always be listed in the same order, the same one used when offering sections to choose from: the one in the file
+
+- **Status:** backlog
+- **Priority:** P1
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** I haven't checked how they appear in Section selection, but in the grid they appear in a different order than in the file. In IPC I saw Exams and sections mixed up.
+
+### TECH-004 — Move E2E tests to unit tests where possible
+
+- **Status:** backlog
 - **Priority:** P3
-- **Reported:** 2025-01-19
-- **Notes:** When the status grid is shown, at the end of que quiz or when reviewing, clicking a question box should show that question immediately as information, not to answer it. If the question has been answered, it will also show the valid answer.
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** It will speed up the test suite and make it less flaky. I am thinking, for instance, about sorting.
+
+### TECH-005 — Standardize ESLint, Prettier, and TypeCheck with VSCode settings
+
+- **Status:** backlog
+- **Priority:** P3
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** It will prevent a noisy VSCode or surprises when running prettier.
+
+### TECH-006 — Instruct in AGENTS how to work with TASKS.md
+
+- **Status:** backlog
+- **Priority:** P3
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** Will prevent mistakes and make it easier for agents to contribute. And not making a mess with the file.
+
+### TECH-007 — Decide what to add to finished Tasks, PR, branch, commit…
+
+- **Status:** backlog
+- **Priority:** P3
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** To document done features and to be able to track and revert, we need to record when things were done. But what is the best way? PR link, branch name, commit hash…?
 
 ### TECH-003 — Separate application from data
 
@@ -47,6 +109,14 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 - **Reported:** 2025-01-16
 - **Reporter:** TT
 - **Notes:** `/uned/studio` fails without trailing slash, but `/uned/studio/` works. Might be AWS/S3/CloudFront routing or Vercel rewrites.
+
+### FEAT-006 — Sections in Section selection can have sub-sections, so I can click all exams, for instance, and see all their sections inside
+
+- **Status:** backlog
+- **Priority:** P3
+- **Reported:** 2025-01-20
+- **Reporter:** TT
+- **Notes:** The could be named like "Section top name > Sub-section name", and clicking the top name would expand/collapse the list of sub-sections.
 
 ---
 
