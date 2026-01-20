@@ -22,6 +22,7 @@ interface StatusGridProps {
   setShowAreaSelection: (show: boolean) => void;
   setShowStatus: (show: boolean) => void;
   setShowResult: (result: null | { correct: boolean; explanation: string }) => void;
+  originalSectionOrder: string[];
 }
 
 export function StatusGrid({
@@ -36,6 +37,7 @@ export function StatusGrid({
   setShowAreaSelection,
   setShowStatus,
   setShowResult,
+  originalSectionOrder,
 }: StatusGridProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionType | null>(null);
 
@@ -287,43 +289,49 @@ export function StatusGrid({
           | {EMOJI_ASK} {pendingCount}
         </span>
       </div>
-      {[...grouped.entries()].map(([section, qs]) => (
-        <div key={section}>
-          <div className="font-bold text-lg mb-2">
-            {EMOJI_SECTION} {section}
-          </div>
-          <div className="grid grid-cols-5 gap-2">
-            {qs.map((q: QuestionType) => {
-              let emoji = EMOJI_ASK;
-              if (status[q.index] === 'correct') emoji = EMOJI_SUCCESS;
-              else if (status[q.index] === 'fail') {
-                emoji = EMOJI_FAIL;
+      {[...grouped.entries()]
+        .sort(([sectionA], [sectionB]) => {
+          const indexA = originalSectionOrder.indexOf(sectionA);
+          const indexB = originalSectionOrder.indexOf(sectionB);
+          return indexA - indexB;
+        })
+        .map(([section, qs]) => (
+          <div key={section}>
+            <div className="font-bold text-lg mb-2">
+              {EMOJI_SECTION} {section}
+            </div>
+            <div className="grid grid-cols-5 gap-2">
+              {qs.map((q: QuestionType) => {
+                let emoji = EMOJI_ASK;
+                if (status[q.index] === 'correct') emoji = EMOJI_SUCCESS;
+                else if (status[q.index] === 'fail') {
+                  emoji = EMOJI_FAIL;
+                  return (
+                    <div
+                      key={q.index}
+                      className="flex flex-col items-center cursor-pointer hover:bg-gray-100 p-1 rounded transition-colors"
+                      onClick={() => setSelectedQuestion(q)}
+                      title={`Ver detalles de la pregunta ${q.number}`}
+                    >
+                      <span className="text-2xl">
+                        {q.number}
+                        {emoji}
+                      </span>
+                    </div>
+                  );
+                }
                 return (
-                  <div
-                    key={q.index}
-                    className="flex flex-col items-center cursor-pointer hover:bg-gray-100 p-1 rounded transition-colors"
-                    onClick={() => setSelectedQuestion(q)}
-                    title={`Ver detalles de la pregunta ${q.number}`}
-                  >
+                  <div key={q.index} className="flex flex-col items-center">
                     <span className="text-2xl">
                       {q.number}
                       {emoji}
                     </span>
                   </div>
                 );
-              }
-              return (
-                <div key={q.index} className="flex flex-col items-center">
-                  <span className="text-2xl">
-                    {q.number}
-                    {emoji}
-                  </span>
-                </div>
-              );
-            })}
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
       <div className="mt-4">
         <span>{EMOJI_SUCCESS} = Correcta </span>
         <span>{EMOJI_FAIL} = Fallada </span>
