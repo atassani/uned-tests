@@ -117,7 +117,7 @@ test('shows area name in status view ("Options")', async ({ page }) => {
     }
   }
 
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 20000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 20000 });
 
   // Should show area name at top of status view
   await expect(page.getByText('Lógica I')).toBeVisible();
@@ -243,7 +243,7 @@ test('selects one section and starts quiz in Lógica I area', async ({ page }) =
   // Updated: match the new concise status line with icons and separators
   await expect(page.locator('body')).toContainText(' 55| ✅ 0| ❌ 0| ❓ 55');
 
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 15000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 15000 });
   await page.getByText('📚 CUESTIONES DE LOS APUNTES').click({ timeout: 15000 });
   await expect(page.locator('body')).toContainText(
     '📚 CUESTIONES DE LOS APUNTES1❓2❓3❓4❓5❓6❓7❓8❓9❓10❓11❓12❓13❓14❓15❓16❓17❓18❓19❓20❓21❓22❓23❓24❓25❓26❓27❓28❓29❓30❓31❓32❓33❓34❓35❓36❓37❓38❓39❓40❓41❓42❓43❓44❓45❓46❓47❓48❓49❓50❓51❓52❓53❓54❓55❓'
@@ -388,7 +388,7 @@ test('remembers last studied area in localStorage', async ({ page }) => {
   expect(currentArea).toBe('log1');
 
   // Go to different area
-  await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name: 'Opciones' }).click();
   await page.getByRole('button', { name: 'Cambiar área' }).first().click();
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
 
@@ -526,7 +526,7 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   const sectionBefore = sectionMatch ? sectionMatch[1].trim() : null;
 
   // Switch to IPC area
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible({ timeout: 5000 });
   await page
@@ -558,7 +558,7 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   await page.getByRole('button', { name: 'Continuar' }).click({ timeout: 10000 });
 
   // Switch back to Lógica I
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await expect(page.getByText('¿Qué quieres estudiar?')).toBeVisible({ timeout: 5000 });
   await page.getByRole('button', { name: /Lógica I/ }).click({ timeout: 10000 });

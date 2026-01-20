@@ -100,7 +100,7 @@ export function QuestionDisplay({
             className="px-6 py-2 bg-gray-400 text-white rounded text-lg"
             onClick={goToStatusWithResume}
           >
-            Options
+            Opciones
           </button>
         </div>
       ) : (
@@ -122,7 +122,7 @@ export function QuestionDisplay({
             className="px-6 py-2 bg-gray-400 text-white rounded text-lg"
             onClick={goToStatusWithResume}
           >
-            Options
+            Opciones
           </button>
         </div>
       )}

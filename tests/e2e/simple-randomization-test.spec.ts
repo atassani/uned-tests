@@ -25,7 +25,7 @@ test.describe('Simple Randomization Test', () => {
     expect(firstQuestionNum1).not.toBeNull();
 
     // Go back to start a new quiz with proper state clearing
-    await page.getByRole('button', { name: 'Options' }).click();
+    await page.getByRole('button', { name: 'Opciones' }).click();
     await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
 
     // Wait for page to reset completely
@@ -53,7 +53,7 @@ test.describe('Simple Randomization Test', () => {
     // If first two are the same, try a few more times to reduce false positives
     if (firstQuestionNum1 === firstQuestionNum2) {
       for (let i = 0; i < 3; i++) {
-        await page.getByRole('button', { name: 'Options' }).click();
+        await page.getByRole('button', { name: 'Opciones' }).click();
         await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
         await page.waitForLoadState('networkidle');
         await page.waitForTimeout(500);

@@ -107,7 +107,7 @@ export function ResultDisplay({
             className="px-4 py-2 bg-gray-400 text-white rounded"
             onClick={() => handleContinue('E')}
           >
-            Options
+            Opciones
           </button>
         </div>
       </div>

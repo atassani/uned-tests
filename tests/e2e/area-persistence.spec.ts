@@ -13,7 +13,7 @@ test('remembers last studied area in localStorage', async ({ page }) => {
   await page.getByRole('button', { name: /Lógica I/ }).waitFor({ timeout: 15000 });
   await page.getByRole('button', { name: /Lógica I/ }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Todas las preguntas' }).click({ timeout: 10000 });
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await page.getByText(/Introducción al Pensamiento Científico/).waitFor({ timeout: 10000 });
   await page
@@ -30,7 +30,7 @@ test('remembers last studied area in localStorage going throu Options', async ({
   await page.getByRole('button', { name: /Lógica I/ }).waitFor({ timeout: 15000 });
   await page.getByRole('button', { name: /Lógica I/ }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Todas las preguntas' }).click({ timeout: 10000 });
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await page.getByText(/Introducción al Pensamiento Científico/).waitFor({ timeout: 10000 });
   await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
@@ -45,7 +45,7 @@ test('automatically returns to last studied area on app reload', async ({ page }
   await page.getByRole('button', { name: /Lógica I/ }).waitFor({ timeout: 15000 });
   await page.getByRole('button', { name: /Lógica I/ }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Todas las preguntas' }).click({ timeout: 10000 });
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await page.getByText(/Introducción al Pensamiento Científico/).waitFor({ timeout: 15000 });
   await page
@@ -93,7 +93,7 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   const pendientes = pendientesMatch ? parseInt(pendientesMatch[1], 10) : null;
 
   // Switch to IPC area
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 15000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 15000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 15000 });
   await page
     .getByRole('button', { name: /Introducción al Pensamiento Científico/ })
@@ -111,7 +111,7 @@ test('preserves quiz progress when switching between areas', async ({ page }) =>
   await page.getByRole('button', { name: 'A', exact: true }).click({ timeout: 15000 });
   await page.getByRole('button', { name: 'Continuar' }).click({ timeout: 15000 });
   // Switch back to Lógica I
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 15000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 15000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 15000 });
   await page.getByRole('button', { name: /Lógica I/ }).waitFor({ timeout: 15000 });
   await page.getByRole('button', { name: /Lógica I/ }).click({ timeout: 15000 });

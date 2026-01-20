@@ -26,8 +26,8 @@ test('Test area switching preserves progress', async ({ page }) => {
   expect(pendientesMatch).not.toBeNull();
   const pendientesBefore = pendientesMatch ? parseInt(pendientesMatch[1], 10) : null;
 
-  await page.getByRole('button', { name: 'Options' }).waitFor({ timeout: 10000 });
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).waitFor({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().waitFor({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Estudiar Lógica I' }).waitFor({ timeout: 10000 });
@@ -41,8 +41,8 @@ test('Test area switching preserves progress', async ({ page }) => {
   const pendientesAfterSwitch = pendientesMatch2 ? parseInt(pendientesMatch2[1], 10) : null;
   expect(pendientesAfterSwitch).toBe(pendientesBefore);
   // Now switch back directly using 'Cambiar área' from the main UI
-  await page.getByRole('button', { name: 'Options' }).waitFor({ timeout: 10000 });
-  await page.getByRole('button', { name: 'Options' }).click({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).waitFor({ timeout: 10000 });
+  await page.getByRole('button', { name: 'Opciones' }).click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().waitFor({ timeout: 10000 });
   await page.getByRole('button', { name: 'Cambiar área' }).first().click({ timeout: 10000 });
   await page.getByRole('button', { name: 'Estudiar Lógica I' }).waitFor({ timeout: 10000 });

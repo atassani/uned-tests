@@ -24,7 +24,7 @@ test.describe('Randomization Bugs', () => {
       if (match) {
         firstQuestions.push(parseInt(match[1], 10));
       }
-      await page.getByRole('button', { name: 'Options' }).click();
+      await page.getByRole('button', { name: 'Opciones' }).click();
       await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
     }
 
@@ -50,7 +50,7 @@ test.describe('Randomization Bugs', () => {
       const match = questionText.match(/^A\) (.+)/);
       firstOptions.push(match ? match[1] : 'UNKNOWN');
 
-      await page.getByRole('button', { name: 'Options' }).click();
+      await page.getByRole('button', { name: 'Opciones' }).click();
       await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
     }
 

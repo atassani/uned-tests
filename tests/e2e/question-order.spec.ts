@@ -183,7 +183,7 @@ test.describe('Question Order Control', () => {
     expect(questionText).toMatch(/\n2\./);
 
     // Now go to Options and change area to test persistence
-    await page.getByRole('button', { name: 'Options' }).click();
+    await page.getByRole('button', { name: 'Opciones' }).click();
     await page.getByRole('button', { name: 'Cambiar área' }).first().click();
     await page.getByRole('button', { name: /Filosofía del Lenguaje/ }).click();
     await page.getByRole('button', { name: 'Cambiar área' }).click();
@@ -209,7 +209,7 @@ test.describe('Question Order Control', () => {
     expect(questionText).toMatch(/\n1\./);
 
     // Go back to menu
-    await page.getByRole('button', { name: 'Options' }).click();
+    await page.getByRole('button', { name: 'Opciones' }).click();
     await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
 
     // Test "Seleccionar secciones" mode

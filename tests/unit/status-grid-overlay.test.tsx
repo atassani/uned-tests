@@ -47,6 +47,7 @@ describe('StatusGrid overlay behavior', () => {
         setShowAreaSelection={jest.fn()}
         setShowStatus={jest.fn()}
         setShowResult={jest.fn()}
+        originalSectionOrder={['Section A']}
       />
     );
 

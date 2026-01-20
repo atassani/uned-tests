@@ -22,14 +22,14 @@ test.describe('Resume Quiz Fresh Experience', () => {
       if (i < 1) await page.waitForSelector('text=A');
     }
 
-    await page.getByRole('button', { name: 'Options' }).click();
+    await page.getByRole('button', { name: 'Opciones' }).click();
     await page.getByRole('button', { name: 'Cambiar área' }).first().click();
     await page.getByText(/Filosofía del Lenguaje/).waitFor();
     await page.getByRole('button', { name: /Filosofía del Lenguaje/ }).click();
     await page.getByRole('button', { name: 'Todas las preguntas' }).click();
     await page.getByRole('button', { name: 'A', exact: true }).click();
 
-    await page.getByRole('button', { name: 'Options' }).click();
+    await page.getByRole('button', { name: 'Opciones' }).click();
     await page.getByRole('button', { name: 'Cambiar área' }).first().click();
     await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).waitFor();
     await page.getByRole('button', { name: /Introducción al Pensamiento Científico/ }).click();
@@ -53,7 +53,7 @@ test.describe('Resume Quiz Fresh Experience', () => {
       await page.getByRole('button', { name: 'Continuar' }).click();
     }
     // Go back to menu
-    await page.getByRole('button', { name: 'Options' }).click();
+    await page.getByRole('button', { name: 'Opciones' }).click();
     await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
     // Click "Todas las preguntas" again
     await page.getByRole('button', { name: 'Todas las preguntas' }).click();

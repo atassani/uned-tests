@@ -638,6 +638,9 @@ export default function QuizApp() {
 
   // Status grid rendering
   function renderStatusGrid() {
+    // Calculate original section order from allQuestions to maintain consistent ordering
+    const originalSectionOrder = Array.from(new Set(allQuestions.map((q) => q.section)));
+
     return (
       <StatusGrid
         selectedArea={selectedArea}
@@ -651,6 +654,7 @@ export default function QuizApp() {
         setShowAreaSelection={setShowAreaSelection}
         setShowStatus={setShowStatus}
         setShowResult={setShowResult}
+        originalSectionOrder={originalSectionOrder}
       />
     );
   }

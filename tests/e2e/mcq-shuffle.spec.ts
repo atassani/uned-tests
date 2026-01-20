@@ -20,7 +20,7 @@ test.describe('MCQ shuffle option', () => {
       ordersSeen.add(options.join(','));
 
       // Go back to menu
-      await page.getByRole('button', { name: 'Options' }).click();
+      await page.getByRole('button', { name: 'Opciones' }).click();
       await page.getByRole('button', { name: 'Volver a empezar' }).first().click();
     }
 
