@@ -3,6 +3,11 @@ import Link from 'next/link';
 const VERSION_HISTORY = [
   // This will be replaced with real git log output
   {
+    version: '1.4.2',
+    date: '2026-01-20',
+    description: 'Detalle de las preguntas fallidas mostrado encima de la rejilla de estado.',
+  },
+  {
     version: '1.4.1',
     date: '2026-01-17',
     description:
