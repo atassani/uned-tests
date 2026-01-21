@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { setupFreshTest, waitForQuizReady } from './helpers';
 
+// May be duplicated with mcq-shuffle.spec.ts
 test.describe('bug-006: options are always in the same order, even with shuffle enabled', () => {
   test('options appear in different order when restarting a quiz', async ({ page }) => {
     await setupFreshTest(page);
