@@ -19,6 +19,14 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 
 ## Now
 
+### BUG-006 — Options are always in the same order, even with shuffle enabled
+
+- **Status:** backlog
+- **Priority:** P1
+- **Reported:** 2025-01-21
+- **Reporter:** TT
+- **Notes:**
+
 ### BUG-005 — When working on T/F and sequential, after interrupting with options, when resuming it goes to a random question
 
 - **Status:** backlog
