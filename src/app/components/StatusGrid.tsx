@@ -115,8 +115,7 @@ export function StatusGrid({
       {/* Question Details Overlay */}
       {selectedQuestion && (
         <div
-          className="fixed inset-0 flex items-center justify-center z-[9999]"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          className="fixed inset-0 w-screen h-screen flex items-center justify-center z-[9999] bg-black/50"
           onClick={() => setSelectedQuestion(null)}
         >
           <div

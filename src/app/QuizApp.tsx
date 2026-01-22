@@ -457,8 +457,8 @@ export default function QuizApp() {
   function renderSelectionMenu() {
     return (
       <SelectionMenu
-        selectedArea={selectedArea}
         currentQuizType={currentQuizType}
+        selectedArea={selectedArea}
         shuffleQuestions={shuffleQuestions}
         setShuffleQuestions={setShuffleQuestions}
         shuffleAnswers={shuffleAnswers}
