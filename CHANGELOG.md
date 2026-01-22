@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.4.4] - 2026-01-22
+
 - ui: move Options button to a cogwheel menu to improve mobile layout (FEAT-007)
 - test: improve testing logic using data-testid for result text (FEAT-007)
 - ui: status grid overlay now covers the full screen and uses a semi-transparent background (BUG-006)
