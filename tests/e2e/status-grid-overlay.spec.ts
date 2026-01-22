@@ -36,8 +36,8 @@ test.describe('StatusGrid overlay CSS layering verification', () => {
       await expect(overlay).toBeVisible();
 
       // Check that it has the rgba background style for transparency
-      const overlayStyle = await overlay.getAttribute('style');
-      expect(overlayStyle).toContain('rgba(0, 0, 0, 0.5)');
+      const overlayClass = await overlay.getAttribute('class');
+      expect(overlayClass).toContain('bg-black/50');
 
       // Verify content box is visible within overlay
       await expect(page.locator('.bg-white.p-6.rounded-lg')).toBeVisible();
