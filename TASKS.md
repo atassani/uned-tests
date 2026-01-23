@@ -128,7 +128,7 @@ Lightweight backlog for this repo (we keep it in the repo instead of GitHub Issu
 - **Priority:** P2
 - **Reported:** 2025-01-22
 - **Completed:** 2026-01-23
-- **PR:** [npnm #15](https://github.com/atassani/uned-studio/pull/15)
+- **PR:** [fix: Implement correct answer display in status grid for MCQs (BUG-007) #16](https://github.com/atassani/uned-studio/pull/16)
 - **Reporter:** TT
 - **Notes:** Using better the screen, it could be a cross on the wrong answer instead
 
