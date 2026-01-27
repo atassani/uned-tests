@@ -75,8 +75,12 @@ describe('User Full Name Display', () => {
 
     render(<QuizApp />);
 
-    // Check that logout button tooltip contains the full name
-    const logoutButton = screen.getByTitle(/Sign out \(John Smith\)/);
+    // Check that user name is displayed next to the logout button
+    const userName = screen.getByText('John Smith');
+    expect(userName).toBeInTheDocument();
+
+    // Check that logout button has "Sign out" title
+    const logoutButton = screen.getByTitle('Sign out');
     expect(logoutButton).toBeInTheDocument();
 
     // Clean up
@@ -106,8 +110,12 @@ describe('User Full Name Display', () => {
 
     render(<QuizApp />);
 
-    // Check that logout button tooltip contains the combined name
-    const logoutButton = screen.getByTitle(/Sign out \(Jane Doe\)/);
+    // Check that user name is displayed next to the logout button
+    const userName = screen.getByText('Jane Doe');
+    expect(userName).toBeInTheDocument();
+
+    // Check that logout button has "Sign out" title
+    const logoutButton = screen.getByTitle('Sign out');
     expect(logoutButton).toBeInTheDocument();
 
     process.env.NEXT_PUBLIC_DISABLE_AUTH = originalEnv;
@@ -134,8 +142,44 @@ describe('User Full Name Display', () => {
 
     render(<QuizApp />);
 
-    // Check that logout button tooltip contains the email
-    const logoutButton = screen.getByTitle(/Sign out \(fallback@example\.com\)/);
+    // Check that user name is displayed next to the logout button
+    const userName = screen.getByText('fallback@example.com');
+    expect(userName).toBeInTheDocument();
+
+    // Check that logout button has "Sign out" title
+    const logoutButton = screen.getByTitle('Sign out');
+    expect(logoutButton).toBeInTheDocument();
+
+    process.env.NEXT_PUBLIC_DISABLE_AUTH = originalEnv;
+  });
+
+  it('should display "Anónimo" for anonymous users', async () => {
+    // Mock anonymous user
+    const mockUser = {
+      username: 'anonymous_user',
+      isAnonymous: true,
+    };
+
+    (useAuth as jest.Mock).mockReturnValue({
+      user: mockUser,
+      logout: mockLogout,
+      isAuthenticated: true,
+      isAnonymous: true,
+      isLoading: false,
+    });
+
+    // Set environment to enable auth
+    const originalEnv = process.env.NEXT_PUBLIC_DISABLE_AUTH;
+    process.env.NEXT_PUBLIC_DISABLE_AUTH = 'false';
+
+    render(<QuizApp />);
+
+    // Check that anonymous name is displayed next to the logout button
+    const userName = screen.getByText('Anónimo');
+    expect(userName).toBeInTheDocument();
+
+    // Check that logout button has "Sign out" title
+    const logoutButton = screen.getByTitle('Sign out');
     expect(logoutButton).toBeInTheDocument();
 
     process.env.NEXT_PUBLIC_DISABLE_AUTH = originalEnv;

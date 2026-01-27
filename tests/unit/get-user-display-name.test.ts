@@ -95,4 +95,13 @@ describe('getUserDisplayName', () => {
 
     expect(getUserDisplayName(user)).toBe('User');
   });
+
+  it('should return "Anónimo" for anonymous users', () => {
+    const user = {
+      username: 'anonymous_user',
+      isAnonymous: true,
+    };
+
+    expect(getUserDisplayName(user)).toBe('Anónimo');
+  });
 });

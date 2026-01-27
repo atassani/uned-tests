@@ -1,6 +1,19 @@
 import DOMPurify from 'isomorphic-dompurify';
 import { QuestionType } from './types';
 
+// User type for display name function
+interface UserForDisplay {
+  username?: string;
+  attributes?: {
+    name?: string;
+    given_name?: string;
+    family_name?: string;
+    email?: string;
+    [key: string]: any; // Allow for any additional attributes like 'custom:name', 'cognito:name'
+  };
+  isAnonymous?: boolean;
+}
+
 export function groupBySection(questions: QuestionType[]): Map<string, QuestionType[]> {
   const map = new Map<string, QuestionType[]>();
   for (const q of questions) {
@@ -108,8 +121,13 @@ export function createSeededRng(seed: number): () => number {
  * 4. Username (only if it doesn't look like a Google ID)
  * 5. 'User' as final fallback
  */
-export function getUserDisplayName(user: any): string {
+export function getUserDisplayName(user: UserForDisplay | null | undefined): string {
   if (!user) return 'User';
+
+  // Handle anonymous users
+  if (user.isAnonymous) {
+    return 'Anónimo';
+  }
 
   // Try the 'name' attribute first (Google OAuth provides this)
   if (user.attributes?.name) {
